@@ -7,11 +7,11 @@ import (
 )
 
 type Game struct {
-    X       int
-    Y       int
-    Command int
-    field   [][]int
-    Seed    int64
+    X           int
+    Y           int
+    field       [][]int
+    Seed        int64
+    FoodPercent int
 }
 
 func init() {
@@ -23,14 +23,18 @@ func (game *Game) CreateField() {
         rand.Seed(game.Seed)
     }
 
+    if game.FoodPercent == 0 {
+        game.FoodPercent = 10
+    }
+
     game.field = make([][]int, game.X)
 
-    var gameFieldY []int
-    gameFieldY = make([]int, game.Y)
-
     for x := 0; x < game.X; x++ {
+        var gameFieldY []int
+        gameFieldY = make([]int, game.Y)
+
         for y := 0; y < game.Y; y++ {
-            gameFieldY[y] = game.Command
+            gameFieldY[y] = rand.Intn(10)
         }
 
         game.field[x] = gameFieldY
@@ -39,9 +43,6 @@ func (game *Game) CreateField() {
 
 func (game *Game) View() {
     for _, row := range game.field {
-        for range row {
-            fmt.Print(".")
-        }
-        fmt.Println("")
+        fmt.Println(row)
     }
 }
