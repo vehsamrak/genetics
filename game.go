@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
     "math/rand"
     "time"
 )
@@ -44,14 +43,16 @@ func (game *Game) CreateField() {
     }
 }
 
-func (game *Game) View() {
+func (game *Game) ViewAsText() (output string) {
     for _, row := range game.field {
         for _, cell := range row {
-            fmt.Print(game.transformCellToSymbol(cell))
+            output += game.transformCellToSymbol(cell)
         }
 
-        fmt.Println()
+        output += "\n"
     }
+
+    return
 }
 
 func (game *Game) transformCellToSymbol(cell int) (symbol string) {
