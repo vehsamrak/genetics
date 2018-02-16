@@ -6,12 +6,15 @@ import (
     "time"
 )
 
+const CELL_TYPE_FOOD = 1
+const CELL_TYPE_OBSTACLE = 2
+
 type Game struct {
-    X           int
-    Y           int
-    field       [][]int
-    Seed        int64
-    FoodPercent int
+    X         int
+    Y         int
+    field     [][]int
+    Seed      int64
+    FreeSpace int
 }
 
 func init() {
@@ -23,8 +26,8 @@ func (game *Game) CreateField() {
         rand.Seed(game.Seed)
     }
 
-    if game.FoodPercent == 0 {
-        game.FoodPercent = 10
+    if game.FreeSpace == 0 {
+        game.FreeSpace = (game.X + game.Y) / 2
     }
 
     game.field = make([][]int, game.X)
@@ -34,7 +37,7 @@ func (game *Game) CreateField() {
         gameFieldY = make([]int, game.Y)
 
         for y := 0; y < game.Y; y++ {
-            gameFieldY[y] = rand.Intn(10)
+            gameFieldY[y] = rand.Intn(game.FreeSpace)
         }
 
         game.field[x] = gameFieldY
@@ -43,6 +46,25 @@ func (game *Game) CreateField() {
 
 func (game *Game) View() {
     for _, row := range game.field {
-        fmt.Println(row)
+        for _, cell := range row {
+            fmt.Print(game.transformCellToSymbol(cell))
+        }
+
+        fmt.Println()
     }
+}
+
+func (game *Game) transformCellToSymbol(cell int) (symbol string) {
+    cellTypes := map[int]string{
+        CELL_TYPE_FOOD:     "o",
+        CELL_TYPE_OBSTACLE: "#",
+    }
+
+    symbol = cellTypes[cell]
+
+    if symbol == "" {
+        symbol = "."
+    }
+
+    return symbol
 }
