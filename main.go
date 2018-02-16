@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 func main() {
-    gameMap := Map{10, 10}
-    fmt.Println(gameMap)
-    fmt.Println("test")
+    game := Game{X: 10, Y: 10}
+    game.init()
+
+    fmt.Println(game)
 }
