@@ -1,7 +1,7 @@
 package main
 
 func main() {
-    game := Game{X: 5, Y: 5}
+    game := Game{X: 10, Y: 30}
     game.CreateField()
     game.View()
 }
