@@ -2,6 +2,8 @@ package main
 
 import (
     "fmt"
+    "math/rand"
+    "time"
 )
 
 type Game struct {
@@ -9,9 +11,18 @@ type Game struct {
     Y       int
     Command int
     field   [][]int
+    Seed    int64
+}
+
+func init() {
+    rand.Seed(time.Now().Unix())
 }
 
 func (game *Game) CreateField() {
+    if game.Seed != 0 {
+        rand.Seed(game.Seed)
+    }
+
     game.field = make([][]int, game.X)
 
     var gameFieldY []int
