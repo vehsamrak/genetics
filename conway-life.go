@@ -4,37 +4,38 @@ import (
     "log"
     "math/rand"
     "time"
+    "os"
 
     "github.com/hajimehoshi/ebiten"
     "github.com/hajimehoshi/ebiten/ebitenutil"
-    "strconv"
-    "os"
 )
+
+const (
+    screenWidth  = 175
+    screenHeight = 100
+    speed = 5
+)
+
+var (
+    world  = NewWorld(screenWidth, screenHeight, int((screenWidth*screenHeight)/10))
+    pixels = make([]byte, screenWidth*screenHeight*4)
+    worldCounter int
+)
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}
+
+func main() {
+    ebiten.SetFullscreen(true)
+    if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Game of Life"); err != nil {
+        log.Fatal(err)
+    }
+}
 
 // World represents the game state.
 type World struct {
     area [][]bool
-}
-
-func newArea(width, height int) [][]bool {
-    a := make([][]bool, height)
-    for i := 0; i < height; i++ {
-        a[i] = make([]bool, width)
-    }
-    return a
-}
-
-// NewWorld creates a new world.
-func NewWorld(width, height int, maxInitLiveCells int) *World {
-    w := &World{
-        area: newArea(width, height),
-    }
-    w.Init(maxInitLiveCells)
-    return w
-}
-
-func init() {
-    rand.Seed(time.Now().UnixNano())
 }
 
 // Init inits world with a random state.
@@ -50,6 +51,14 @@ func (w *World) Init(maxLiveCells int) {
 
 // Update game state by one tick.
 func (w *World) Update() {
+    if worldCounter > 10 - speed {
+        worldCounter = 0
+    } else {
+        worldCounter++
+
+        return
+    }
+
     height := len(w.area)
     width := len(w.area[0])
     next := newArea(width, height)
@@ -104,6 +113,23 @@ func (w *World) Draw(pix []byte) {
     }
 }
 
+// Create a new world
+func NewWorld(width, height int, maxInitLiveCells int) *World {
+    w := &World{
+        area: newArea(width, height),
+    }
+    w.Init(maxInitLiveCells)
+    return w
+}
+
+func newArea(width, height int) [][]bool {
+    a := make([][]bool, height)
+    for i := 0; i < height; i++ {
+        a[i] = make([]bool, width)
+    }
+    return a
+}
+
 func max(a, b int) int {
     if a < b {
         return b
@@ -118,7 +144,7 @@ func min(a, b int) int {
     return b
 }
 
-// neighbourCount calculates the Moore neighborhood of (x, y).
+// Calculate the Moore neighborhood of (x, y)
 func neighbourCount(a [][]bool, x, y int) int {
     w := len(a[0])
     h := len(a)
@@ -141,16 +167,6 @@ func neighbourCount(a [][]bool, x, y int) int {
     return c
 }
 
-const (
-    screenWidth  = 350
-    screenHeight = 200
-)
-
-var (
-    world  = NewWorld(screenWidth, screenHeight, int((screenWidth*screenHeight)/10))
-    pixels = make([]byte, screenWidth*screenHeight*4)
-)
-
 func update(screen *ebiten.Image) error {
     if ebiten.IsKeyPressed(ebiten.KeyEscape) {
         os.Exit(0)
@@ -161,18 +177,10 @@ func update(screen *ebiten.Image) error {
 
     screen.ReplacePixels(pixels)
     ebitenutil.DebugPrint(screen, "Press ESC to quit")
-    ebitenutil.DebugPrint(screen, "\nFPS: " + strconv.Itoa(ebiten.FPS))
 
     if ebiten.IsRunningSlowly() {
         return nil
     }
 
     return nil
-}
-
-func main() {
-    ebiten.SetFullscreen(true)
-    if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Game of Life"); err != nil {
-        log.Fatal(err)
-    }
 }
