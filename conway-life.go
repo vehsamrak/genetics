@@ -119,6 +119,7 @@ func NewWorld(width, height int, maxInitLiveCells int) *World {
         area: newArea(width, height),
     }
     w.Init(maxInitLiveCells)
+
     return w
 }
 
@@ -127,6 +128,7 @@ func newArea(width, height int) [][]bool {
     for i := 0; i < height; i++ {
         a[i] = make([]bool, width)
     }
+
     return a
 }
 
@@ -134,6 +136,7 @@ func max(a, b int) int {
     if a < b {
         return b
     }
+
     return a
 }
 
@@ -141,6 +144,7 @@ func min(a, b int) int {
     if a < b {
         return a
     }
+
     return b
 }
 
@@ -164,6 +168,7 @@ func neighbourCount(a [][]bool, x, y int) int {
             }
         }
     }
+
     return c
 }
 
