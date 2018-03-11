@@ -1,8 +1,15 @@
 package main
 
 import (
+    "time"
+    "math/rand"
+
     term "github.com/buger/goterm"
 )
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}
 
 func main() {
     game := Game{X: 10, Y: 30}
