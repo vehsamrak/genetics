@@ -1,22 +1,19 @@
 package main
 
 import (
-    "time"
-    "math/rand"
+	"fmt"
+	"math/rand"
+	"strconv"
+	"time"
 
-    term "github.com/buger/goterm"
+	"github.com/vehsamrak/genetics/src/cell"
 )
 
 func init() {
-    rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano())
 }
 
 func main() {
-    game := Game{X: 10, Y: 30}
-    game.CreateField()
-
-    term.Clear()
-    term.MoveCursor(1, 1)
-    term.Println(game.ViewAsText())
-    term.Flush()
+	cell := cell.New()
+	fmt.Println(strconv.Itoa(cell.GetLifePoints()))
 }
