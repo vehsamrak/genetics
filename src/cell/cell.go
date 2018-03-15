@@ -15,3 +15,11 @@ func (cell *cell) GetLifePoints() int {
 func (cell *cell) AddLifePoints(points int) {
 	cell.lifePoints += points
 }
+
+func (cell *cell) DeductLifePoints(points int) {
+	if cell.lifePoints - points < 0 {
+		cell.lifePoints = 0
+	} else {
+		cell.lifePoints -= points
+	}
+}
