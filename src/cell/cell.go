@@ -13,6 +13,10 @@ func (cell *cell) GetLifePoints() int {
 }
 
 func (cell *cell) AddLifePoints(points int) {
+	if points <= 0 {
+		return
+	}
+
 	cell.lifePoints += points
 }
 

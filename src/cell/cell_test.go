@@ -18,7 +18,7 @@ func TestCell(test *testing.T) {
 
 var deductionTestTable = []struct {
 	cellLifePoints               int
-	deductionCount               int
+	deduction                    int
 	cellLifePointsAfterDeduction int
 }{
 	{0, 0, 0},
@@ -32,6 +32,20 @@ var deductionTestTable = []struct {
 	{2, -1, 2},
 }
 
+var additionTestTable = []struct {
+	cellLifePoints              int
+	addition                    int
+	cellLifePointsAfterAddition int
+}{
+	{0, 0, 0},
+	{0, 1, 1},
+	{1, 1, 2},
+	{1, 2, 3},
+	{2, 3, 5},
+	{1, -1, 1},
+	{2, -1, 2},
+}
+
 func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturned() {
 	cell := New()
 	defaultLifePoints := 0
@@ -41,21 +55,22 @@ func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturn
 	assert.Equal(suite.T(), defaultLifePoints, lifePoints)
 }
 
-func (suite *CellTest) TestAddLifePoints_addOnePointToCellWithZeroPoints_pointsAdded() {
-	cell := cell{lifePoints: 0}
-	additionalLifePoints := 1
+func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
+	for id, dataset := range additionTestTable {
 
-	cell.AddLifePoints(additionalLifePoints)
+		cell := cell{lifePoints: dataset.cellLifePoints}
+		cell.AddLifePoints(dataset.addition)
 
-	assert.Equal(suite.T(), additionalLifePoints, cell.GetLifePoints())
+		assert.Equal(suite.T(), dataset.cellLifePointsAfterAddition, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", id))
+	}
 }
 
 func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() {
-	for key, tt := range deductionTestTable {
+	for id, dataset := range deductionTestTable {
 
-		cell := cell{lifePoints: tt.cellLifePoints}
-		cell.DeductLifePoints(tt.deductionCount)
+		cell := cell{lifePoints: dataset.cellLifePoints}
+		cell.DeductLifePoints(dataset.deduction)
 
-		assert.Equal(suite.T(), tt.cellLifePointsAfterDeduction, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", key))
+		assert.Equal(suite.T(), dataset.cellLifePointsAfterDeduction, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", id))
 	}
 }
