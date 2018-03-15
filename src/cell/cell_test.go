@@ -57,11 +57,10 @@ func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturn
 
 func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
 	for id, dataset := range additionTestTable {
-
 		cell := cell{lifePoints: dataset.cellLifePoints}
 		cell.AddLifePoints(dataset.addition)
 
-		assert.Equal(suite.T(), dataset.cellLifePointsAfterAddition, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", id))
+		assert.Equal(suite.T(), dataset.cellLifePointsAfterAddition, cell.lifePoints, fmt.Sprintf("Dataset #%v", id))
 	}
 }
 
@@ -71,6 +70,6 @@ func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() 
 		cell := cell{lifePoints: dataset.cellLifePoints}
 		cell.DeductLifePoints(dataset.deduction)
 
-		assert.Equal(suite.T(), dataset.cellLifePointsAfterDeduction, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", id))
+		assert.Equal(suite.T(), dataset.cellLifePointsAfterDeduction, cell.lifePoints, fmt.Sprintf("Dataset #%v", id))
 	}
 }
