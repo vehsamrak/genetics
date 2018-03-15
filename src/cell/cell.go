@@ -17,6 +17,10 @@ func (cell *cell) AddLifePoints(points int) {
 }
 
 func (cell *cell) DeductLifePoints(points int) {
+	if points <= 0 {
+		return
+	}
+
 	if cell.lifePoints - points < 0 {
 		cell.lifePoints = 0
 	} else {
