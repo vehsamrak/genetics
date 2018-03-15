@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/vehsamrak/genetics/src/cell"
+	Cell "github.com/vehsamrak/genetics/src/cell"
 )
 
 func init() {
@@ -14,6 +14,6 @@ func init() {
 }
 
 func main() {
-	cell := cell.New()
+	cell := Cell.New()
 	fmt.Println(strconv.Itoa(cell.GetLifePoints()))
 }
