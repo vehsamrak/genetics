@@ -1,6 +1,7 @@
 package cell
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,6 +14,17 @@ type CellTest struct {
 
 func TestCell(test *testing.T) {
 	suite.Run(test, new(CellTest))
+}
+
+var deductionTestTable = []struct {
+	cellLifePoints               int
+	deductionCount               int
+	cellLifePointsAfterDeduction int
+}{
+	{0, 0, 0},
+	{0, 1, 0},
+	{1, 1, 0},
+	{2, 1, 1},
 }
 
 func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturned() {
@@ -33,29 +45,12 @@ func (suite *CellTest) TestAddLifePoints_addOnePointToCellWithZeroPoints_pointsA
 	assert.Equal(suite.T(), additionalLifePoints, cell.GetLifePoints())
 }
 
-func (suite *CellTest) TestDeductLifePoints_cellWithZeroPoints_cellContainsZeroPoints() {
-	cell := cell{lifePoints: 0}
-	lifePointsToDeduct := 1
+func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() {
+	for key, tt := range deductionTestTable {
 
-	cell.DeductLifePoints(lifePointsToDeduct)
+		cell := cell{lifePoints: tt.cellLifePoints}
+		cell.DeductLifePoints(tt.deductionCount)
 
-	assert.Equal(suite.T(), 0, cell.GetLifePoints())
-}
-
-func (suite *CellTest) TestDeductLifePoints_cellWithOnePoint_cellContainsZeroPoints() {
-	cell := cell{lifePoints: 1}
-	lifePointsToDeduct := 1
-
-	cell.DeductLifePoints(lifePointsToDeduct)
-
-	assert.Equal(suite.T(), 0, cell.GetLifePoints())
-}
-
-func (suite *CellTest) TestDeductLifePoints_deductOnePointFromCellWithTwoPoints_cellContainsOnePoint() {
-	cell := cell{lifePoints: 2}
-	lifePointsToDeduct := 1
-
-	cell.DeductLifePoints(lifePointsToDeduct)
-
-	assert.Equal(suite.T(), 1, cell.GetLifePoints())
+		assert.Equal(suite.T(), tt.cellLifePointsAfterDeduction, cell.GetLifePoints(), fmt.Sprintf("Dataset #%v", key))
+	}
 }
