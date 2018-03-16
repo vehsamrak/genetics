@@ -31,3 +31,7 @@ func (cell *cell) DeductLifePoints(points int) {
 		cell.lifePoints -= points
 	}
 }
+
+func (cell *cell) IsAlive() bool {
+	return cell.lifePoints > 0
+}

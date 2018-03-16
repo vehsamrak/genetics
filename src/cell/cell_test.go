@@ -46,6 +46,15 @@ var additionTestTable = []struct {
 	{2, -1, 2},
 }
 
+var isAliveTestTable = []struct {
+	cellLifePoints int
+	isAlive        bool
+}{
+	{0, false},
+	{1, true},
+	{-1, false},
+}
+
 func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturned() {
 	cell := New()
 	defaultLifePoints := 0
@@ -58,6 +67,7 @@ func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturn
 func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
 	for id, dataset := range additionTestTable {
 		cell := cell{lifePoints: dataset.cellLifePoints}
+
 		cell.AddLifePoints(dataset.addition)
 
 		assert.Equal(suite.T(), dataset.cellLifePointsAfterAddition, cell.lifePoints, fmt.Sprintf("Dataset #%v", id))
@@ -66,10 +76,20 @@ func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
 
 func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() {
 	for id, dataset := range deductionTestTable {
-
 		cell := cell{lifePoints: dataset.cellLifePoints}
+
 		cell.DeductLifePoints(dataset.deduction)
 
 		assert.Equal(suite.T(), dataset.cellLifePointsAfterDeduction, cell.lifePoints, fmt.Sprintf("Dataset #%v", id))
+	}
+}
+
+func (suite *CellTest) TestIsAlive_cellWithPoints_cellAliveStatusReturned() {
+	for id, dataset := range isAliveTestTable {
+		cell := cell{lifePoints: dataset.cellLifePoints}
+
+		isCellAlive := cell.IsAlive()
+
+		assert.Equal(suite.T(), dataset.isAlive, isCellAlive, fmt.Sprintf("Dataset #%v", id))
 	}
 }
