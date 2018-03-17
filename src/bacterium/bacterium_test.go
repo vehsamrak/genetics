@@ -69,7 +69,7 @@ var isAliveTestTable = []struct {
 
 func (suite *BacteriumTest) Test_GetLifePoints_newBacterium_defaultAmountOfLifePointsReturned() {
 	bacterium := New()
-	defaultLifePoints := 0
+	defaultLifePoints := 10
 
 	lifePoints := bacterium.GetLifePoints()
 

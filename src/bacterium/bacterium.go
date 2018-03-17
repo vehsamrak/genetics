@@ -2,6 +2,8 @@ package bacterium
 
 import "github.com/vehsamrak/genetics/src/applicationError"
 
+const DEFAULT_LIFE_POINTS = 10
+
 type bacterium struct {
 	lifePoints int
 	X          int
@@ -9,7 +11,7 @@ type bacterium struct {
 }
 
 func New() bacterium {
-	return bacterium{}
+	return bacterium{lifePoints: DEFAULT_LIFE_POINTS}
 }
 
 func (bacterium *bacterium) GetLifePoints() int {
