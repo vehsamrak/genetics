@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/vehsamrak/genetics/src/applicationError"
 )
 
 type BacteriumTest struct {
@@ -92,4 +93,14 @@ func (suite *BacteriumTest) Test_IsAlive_bacteriumWithPoints_bacteriumAliveStatu
 
 		assert.Equal(suite.T(), dataset.isAlive, isBacteriumAlive, fmt.Sprintf("Dataset #%v", id))
 	}
+}
+
+func (suite *BacteriumTest) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
+	bacterium := bacterium{lifePoints: 0}
+
+	err := bacterium.Move()
+
+	_, ok := err.(*applicationError.CanNotMove)
+	assert.True(suite.T(), ok)
+	assert.Equal(suite.T(), "Bacterium can't move", err.Error())
 }

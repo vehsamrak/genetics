@@ -1,5 +1,7 @@
 package bacterium
 
+import "github.com/vehsamrak/genetics/src/applicationError"
+
 type bacterium struct {
 	lifePoints int
 }
@@ -34,4 +36,12 @@ func (bacterium *bacterium) DeductLifePoints(points int) {
 
 func (bacterium *bacterium) IsAlive() bool {
 	return bacterium.lifePoints > 0
+}
+
+func (bacterium *bacterium) Move() (error error) {
+	if !bacterium.IsAlive() {
+		error = new(applicationError.CanNotMove)
+	}
+
+	return error
 }
