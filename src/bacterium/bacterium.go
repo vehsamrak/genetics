@@ -4,6 +4,8 @@ import "github.com/vehsamrak/genetics/src/applicationError"
 
 type bacterium struct {
 	lifePoints int
+	X          int
+	Y          int
 }
 
 func New() bacterium {
@@ -38,10 +40,27 @@ func (bacterium *bacterium) IsAlive() bool {
 	return bacterium.lifePoints > 0
 }
 
-func (bacterium *bacterium) Move() (error error) {
-	if !bacterium.IsAlive() {
+func (bacterium *bacterium) IsDead() bool {
+	return bacterium.lifePoints <= 0
+}
+
+func (bacterium *bacterium) Move(direction MoveDirection) (error error) {
+	if bacterium.IsDead() {
 		error = new(applicationError.CanNotMove)
 	}
+
+	switch direction {
+	case DIRECTION_NORTH:
+		bacterium.Y++
+	case DIRECTION_EAST:
+		bacterium.X++
+	case DIRECTION_SOUTH:
+		bacterium.Y--
+	case DIRECTION_WEST:
+		bacterium.X--
+	}
+
+	bacterium.lifePoints--
 
 	return error
 }

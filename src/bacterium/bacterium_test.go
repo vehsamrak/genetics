@@ -47,6 +47,17 @@ var additionTestTable = []struct {
 	{2, -1, 2},
 }
 
+var moveTestTable = []struct {
+	direction MoveDirection
+	X         int
+	Y         int
+}{
+	{DIRECTION_NORTH, 0, 1},
+	{DIRECTION_EAST, 1, 0},
+	{DIRECTION_SOUTH, 0, -1},
+	{DIRECTION_WEST, -1, 0},
+}
+
 var isAliveTestTable = []struct {
 	lifePoints int
 	isAlive    bool
@@ -98,9 +109,30 @@ func (suite *BacteriumTest) Test_IsAlive_bacteriumWithPoints_bacteriumAliveStatu
 func (suite *BacteriumTest) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
 	bacterium := bacterium{lifePoints: 0}
 
-	err := bacterium.Move()
+	err := bacterium.Move(DIRECTION_NORTH)
 
 	_, ok := err.(*applicationError.CanNotMove)
 	assert.True(suite.T(), ok)
 	assert.Equal(suite.T(), "Bacterium can't move", err.Error())
+}
+
+func (suite *BacteriumTest) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedAndOneLifePointLeft() {
+	for id, dataset := range moveTestTable {
+		bacterium := bacterium{lifePoints: 2}
+
+		err := bacterium.Move(dataset.direction)
+
+		assert.Nil(suite.T(), err)
+		assert.Equal(suite.T(), dataset.X, bacterium.X, fmt.Sprintf("Dataset #%v", id))
+		assert.Equal(suite.T(), 1, bacterium.lifePoints, fmt.Sprintf("Dataset #%v", id))
+	}
+}
+
+func (suite *BacteriumTest) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
+	bacterium := bacterium{lifePoints: 1}
+
+	err := bacterium.Move(DIRECTION_NORTH)
+
+	assert.Nil(suite.T(), err)
+	assert.True(suite.T(), bacterium.IsDead())
 }
