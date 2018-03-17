@@ -55,7 +55,7 @@ var isAliveTestTable = []struct {
 	{-1, false},
 }
 
-func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturned() {
+func (suite *CellTest) Test_GetLifePoints_newCell_defaultAmountOfLifePointsReturned() {
 	cell := New()
 	defaultLifePoints := 0
 
@@ -64,7 +64,7 @@ func (suite *CellTest) TestGetLifePoints_newCell_defaultAmountOfLifePointsReturn
 	assert.Equal(suite.T(), defaultLifePoints, lifePoints)
 }
 
-func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
+func (suite *CellTest) Test_AddLifePoints_cellWithPoints_cellContainsPoints() {
 	for id, dataset := range additionTestTable {
 		cell := cell{lifePoints: dataset.cellLifePoints}
 
@@ -74,7 +74,7 @@ func (suite *CellTest) TestAddLifePoints_cellWithPoints_cellContainsPoints() {
 	}
 }
 
-func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() {
+func (suite *CellTest) Test_DeductLifePoints_cellWithPoints_cellContainsPoints() {
 	for id, dataset := range deductionTestTable {
 		cell := cell{lifePoints: dataset.cellLifePoints}
 
@@ -84,7 +84,7 @@ func (suite *CellTest) TestDeductLifePoints_cellWithPoints_cellContainsPoints() 
 	}
 }
 
-func (suite *CellTest) TestIsAlive_cellWithPoints_cellAliveStatusReturned() {
+func (suite *CellTest) Test_IsAlive_cellWithPoints_cellAliveStatusReturned() {
 	for id, dataset := range isAliveTestTable {
 		cell := cell{lifePoints: dataset.cellLifePoints}
 
