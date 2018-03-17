@@ -67,13 +67,19 @@ var isAliveTestTable = []struct {
 	{-1, false},
 }
 
-func (suite *BacteriumTest) Test_GetLifePoints_newBacterium_defaultAmountOfLifePointsReturned() {
+func (suite *BacteriumTest) Test_New_newBacterium_defaultAmountOfLifePoints() {
 	bacterium := New()
 	defaultLifePoints := 10
 
+	assert.Equal(suite.T(), bacterium.lifePoints, defaultLifePoints)
+}
+
+func (suite *BacteriumTest) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {
+	bacterium := bacterium{lifePoints: 1}
+
 	lifePoints := bacterium.GetLifePoints()
 
-	assert.Equal(suite.T(), defaultLifePoints, lifePoints)
+	assert.Equal(suite.T(), 1, lifePoints)
 }
 
 func (suite *BacteriumTest) Test_AddLifePoints_bacteriumWithPoints_bacteriumContainsPoints() {
