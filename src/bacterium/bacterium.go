@@ -5,12 +5,13 @@ import "github.com/vehsamrak/genetics/src/applicationError"
 const DEFAULT_LIFE_POINTS = 10
 
 type bacterium struct {
+	gameField  *gameField
 	lifePoints int
 	X          int
 	Y          int
 }
 
-func New() bacterium {
+func NewBacterium() bacterium {
 	return bacterium{lifePoints: DEFAULT_LIFE_POINTS}
 }
 
@@ -31,7 +32,7 @@ func (bacterium *bacterium) DeductLifePoints(points int) {
 		return
 	}
 
-	if bacterium.lifePoints - points < 0 {
+	if bacterium.lifePoints-points < 0 {
 		bacterium.lifePoints = 0
 	} else {
 		bacterium.lifePoints -= points

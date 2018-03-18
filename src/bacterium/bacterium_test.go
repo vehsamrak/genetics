@@ -9,12 +9,8 @@ import (
 	"github.com/vehsamrak/genetics/src/applicationError"
 )
 
-type BacteriumTest struct {
-	suite.Suite
-}
-
 func TestBacterium(test *testing.T) {
-	suite.Run(test, new(BacteriumTest))
+	suite.Run(test, new(BacteriumTestSuite))
 }
 
 var deductionTestTable = []struct {
@@ -67,14 +63,18 @@ var isAliveTestTable = []struct {
 	{-1, false},
 }
 
-func (suite *BacteriumTest) Test_New_newBacterium_defaultAmountOfLifePoints() {
-	bacterium := New()
+type BacteriumTestSuite struct {
+	suite.Suite
+}
+
+func (suite *BacteriumTestSuite) Test_New_newBacterium_defaultAmountOfLifePoints() {
+	bacterium := NewBacterium()
 	defaultLifePoints := 10
 
 	assert.Equal(suite.T(), bacterium.lifePoints, defaultLifePoints)
 }
 
-func (suite *BacteriumTest) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {
+func (suite *BacteriumTestSuite) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {
 	bacterium := bacterium{lifePoints: 1}
 
 	lifePoints := bacterium.GetLifePoints()
@@ -82,7 +82,7 @@ func (suite *BacteriumTest) Test_GetLifePoints_bacteriumWithOneLifePoint_correct
 	assert.Equal(suite.T(), 1, lifePoints)
 }
 
-func (suite *BacteriumTest) Test_AddLifePoints_bacteriumWithPoints_bacteriumContainsPoints() {
+func (suite *BacteriumTestSuite) Test_AddLifePoints_bacteriumWithPoints_bacteriumContainsPoints() {
 	for id, dataset := range additionTestTable {
 		bacterium := bacterium{lifePoints: dataset.lifePoints}
 
@@ -92,7 +92,7 @@ func (suite *BacteriumTest) Test_AddLifePoints_bacteriumWithPoints_bacteriumCont
 	}
 }
 
-func (suite *BacteriumTest) Test_DeductLifePoints_bacteriumWithPoints_bacteriumContainsPoints() {
+func (suite *BacteriumTestSuite) Test_DeductLifePoints_bacteriumWithPoints_bacteriumContainsPoints() {
 	for id, dataset := range deductionTestTable {
 		bacterium := bacterium{lifePoints: dataset.lifePoints}
 
@@ -102,7 +102,7 @@ func (suite *BacteriumTest) Test_DeductLifePoints_bacteriumWithPoints_bacteriumC
 	}
 }
 
-func (suite *BacteriumTest) Test_IsAlive_bacteriumWithPoints_bacteriumAliveStatusReturned() {
+func (suite *BacteriumTestSuite) Test_IsAlive_bacteriumWithPoints_bacteriumAliveStatusReturned() {
 	for id, dataset := range isAliveTestTable {
 		bacterium := bacterium{lifePoints: dataset.lifePoints}
 
@@ -112,7 +112,7 @@ func (suite *BacteriumTest) Test_IsAlive_bacteriumWithPoints_bacteriumAliveStatu
 	}
 }
 
-func (suite *BacteriumTest) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
+func (suite *BacteriumTestSuite) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
 	bacterium := bacterium{lifePoints: 0}
 
 	err := bacterium.Move(DIRECTION_NORTH)
@@ -122,7 +122,7 @@ func (suite *BacteriumTest) Test_Move_bacteriumWithoutLifePoints_canNotMoveError
 	assert.Equal(suite.T(), "Bacterium can't move", err.Error())
 }
 
-func (suite *BacteriumTest) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedAndOneLifePointLeft() {
+func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedAndOneLifePointLeft() {
 	for id, dataset := range moveTestTable {
 		bacterium := bacterium{lifePoints: 2}
 
@@ -134,11 +134,33 @@ func (suite *BacteriumTest) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedA
 	}
 }
 
-func (suite *BacteriumTest) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
+func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
 	bacterium := bacterium{lifePoints: 1}
 
 	err := bacterium.Move(DIRECTION_NORTH)
 
 	assert.Nil(suite.T(), err)
 	assert.True(suite.T(), bacterium.IsDead())
+}
+
+func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoordinatesWhereAnotherStandsError() {
+	gameField := createGameField()
+	_ = bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 1, gameField: &gameField}
+	southBacterium := bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 0, gameField: &gameField}
+
+	err := southBacterium.Move(DIRECTION_NORTH)
+
+	assert.Nil(suite.T(), err)
+}
+
+func createGameField() gameField {
+	mock := &gameFieldMock{}
+
+	return mock
+}
+
+type gameFieldMock struct {
+}
+
+func (field *gameFieldMock) getAllBacterias() {
 }
