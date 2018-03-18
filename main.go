@@ -14,6 +14,6 @@ func init() {
 }
 
 func main() {
-	bacterium := Bacterium.New()
+	bacterium := Bacterium.NewBacterium()
 	fmt.Println(strconv.Itoa(bacterium.GetLifePoints()))
 }
