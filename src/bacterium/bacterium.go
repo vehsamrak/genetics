@@ -48,7 +48,7 @@ func (bacterium *bacterium) IsDead() bool {
 	return bacterium.lifePoints <= 0
 }
 
-func (bacterium *bacterium) Move(direction MoveDirection) (error error) {
+func (bacterium *bacterium) Move(direction Direction) (error error) {
 	if bacterium.IsDead() {
 		error = new(applicationError.CanNotMove)
 	}

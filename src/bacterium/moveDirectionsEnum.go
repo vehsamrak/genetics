@@ -1,10 +1,10 @@
 package bacterium
 
-// Move direction of bacterium based on quadrille (2d map)
-type MoveDirection int
+// Direction of bacterium movement based on quadrille (2d map)
+type Direction int
 
 const (
-	directionNorth MoveDirection = iota
+	directionNorth Direction = iota
 	directionEast
 	directionSouth
 	directionWest

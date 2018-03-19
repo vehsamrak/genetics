@@ -44,7 +44,7 @@ var additionTestTable = []struct {
 }
 
 var moveTestTable = []struct {
-	direction MoveDirection
+	direction Direction
 	X         int
 	Y         int
 }{
