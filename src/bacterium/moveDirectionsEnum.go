@@ -1,6 +1,6 @@
 package bacterium
 
-// Bacterium move direction based on quadrille (2d map)
+// Move direction of bacterium based on quadrille (2d map)
 type MoveDirection int
 
 const (
