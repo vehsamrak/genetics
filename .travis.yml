@@ -2,9 +2,9 @@ language: go
 
 go:
   - 1.10.x
-  - tip
 
 before_install:
+  - rm -rf $HOME/gopath/src/*
   - go get -t -v ./...
 
 script:
