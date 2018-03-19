@@ -1,5 +1,6 @@
 package applicationError
 
+// Bacterium can not move error
 type CanNotMove struct {
 }
 

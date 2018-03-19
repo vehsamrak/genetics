@@ -68,7 +68,7 @@ type BacteriumTestSuite struct {
 }
 
 func (suite *BacteriumTestSuite) Test_New_newBacterium_defaultAmountOfLifePoints() {
-	bacterium := NewBacterium()
+	bacterium := New()
 	defaultLifePoints := 10
 
 	assert.Equal(suite.T(), bacterium.lifePoints, defaultLifePoints)
@@ -145,8 +145,8 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoordinatesWhereAnotherStandsError() {
 	gameField := createGameField()
-	_ = bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 1, gameField: &gameField}
-	southBacterium := bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 0, gameField: &gameField}
+	_ = bacterium{lifePoints: defaultLifePoints, X: 0, Y: 1, gameField: &gameField}
+	southBacterium := bacterium{lifePoints: defaultLifePoints, X: 0, Y: 0, gameField: &gameField}
 
 	err := southBacterium.Move(directionNorth)
 
