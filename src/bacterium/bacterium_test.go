@@ -48,10 +48,10 @@ var moveTestTable = []struct {
 	X         int
 	Y         int
 }{
-	{DIRECTION_NORTH, 0, 1},
-	{DIRECTION_EAST, 1, 0},
-	{DIRECTION_SOUTH, 0, -1},
-	{DIRECTION_WEST, -1, 0},
+	{directionNorth, 0, 1},
+	{directionEast, 1, 0},
+	{directionSouth, 0, -1},
+	{directionWest, -1, 0},
 }
 
 var isAliveTestTable = []struct {
@@ -115,7 +115,7 @@ func (suite *BacteriumTestSuite) Test_IsAlive_bacteriumWithPoints_bacteriumAlive
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
 	bacterium := bacterium{lifePoints: 0}
 
-	err := bacterium.Move(DIRECTION_NORTH)
+	err := bacterium.Move(directionNorth)
 
 	_, ok := err.(*applicationError.CanNotMove)
 	assert.True(suite.T(), ok)
@@ -137,7 +137,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumM
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
 	bacterium := bacterium{lifePoints: 1}
 
-	err := bacterium.Move(DIRECTION_NORTH)
+	err := bacterium.Move(directionNorth)
 
 	assert.Nil(suite.T(), err)
 	assert.True(suite.T(), bacterium.IsDead())
@@ -148,7 +148,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoo
 	_ = bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 1, gameField: &gameField}
 	southBacterium := bacterium{lifePoints: DEFAULT_LIFE_POINTS, X: 0, Y: 0, gameField: &gameField}
 
-	err := southBacterium.Move(DIRECTION_NORTH)
+	err := southBacterium.Move(directionNorth)
 
 	assert.Nil(suite.T(), err)
 }

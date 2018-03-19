@@ -53,13 +53,13 @@ func (bacterium *bacterium) Move(direction MoveDirection) (error error) {
 	}
 
 	switch direction {
-	case DIRECTION_NORTH:
+	case directionNorth:
 		bacterium.Y++
-	case DIRECTION_EAST:
+	case directionEast:
 		bacterium.X++
-	case DIRECTION_SOUTH:
+	case directionSouth:
 		bacterium.Y--
-	case DIRECTION_WEST:
+	case directionWest:
 		bacterium.X--
 	}
 
