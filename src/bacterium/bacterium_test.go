@@ -113,29 +113,29 @@ func (suite *BacteriumTestSuite) Test_IsAlive_bacteriumWithPoints_bacteriumAlive
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
-	bacterium := bacterium{lifePoints: 0}
+	bacterium := bacterium{lifePoints: 0, gameField: createGameField()}
 
 	err := bacterium.Move(directionNorth)
 
 	_, ok := err.(*applicationError.CanNotMove)
 	assert.True(suite.T(), ok)
-	assert.Equal(suite.T(), "Bacterium can't move", err.Error())
+	assert.Equal(suite.T(), "Microorganism can't move", err.Error())
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedAndOneLifePointLeft() {
 	for id, dataset := range moveTestTable {
-		bacterium := bacterium{lifePoints: 2}
+		bacterium := bacterium{lifePoints: 2, gameField: createGameField()}
 
 		err := bacterium.Move(dataset.direction)
 
 		assert.Nil(suite.T(), err)
-		assert.Equal(suite.T(), dataset.X, bacterium.X, fmt.Sprintf("Dataset #%v", id))
+		assert.Equal(suite.T(), dataset.X, bacterium.x, fmt.Sprintf("Dataset #%v", id))
 		assert.Equal(suite.T(), 1, bacterium.lifePoints, fmt.Sprintf("Dataset #%v", id))
 	}
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
-	bacterium := bacterium{lifePoints: 1}
+	bacterium := bacterium{lifePoints: 1, gameField: createGameField()}
 
 	err := bacterium.Move(directionNorth)
 
@@ -145,12 +145,14 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoordinatesWhereAnotherStandsError() {
 	gameField := createGameField()
-	_ = bacterium{lifePoints: defaultLifePoints, X: 0, Y: 1, gameField: &gameField}
-	southBacterium := bacterium{lifePoints: defaultLifePoints, X: 0, Y: 0, gameField: &gameField}
+	northBacterium := &bacterium{lifePoints: defaultLifePoints, x: 0, y: 1, gameField: gameField}
+	southBacterium := &bacterium{lifePoints: defaultLifePoints, x: 0, y: 0, gameField: gameField}
+	gameField.addBacterium(northBacterium)
+	gameField.addBacterium(southBacterium)
 
 	err := southBacterium.Move(directionNorth)
 
-	assert.Nil(suite.T(), err)
+	assert.NotNil(suite.T(), err)
 }
 
 func createGameField() gameField {
@@ -158,7 +160,13 @@ func createGameField() gameField {
 }
 
 type gameFieldMock struct {
+	bacterias []microorganism
 }
 
-func (field *gameFieldMock) getAllBacterias() {
+func (field *gameFieldMock) allBacterias() []microorganism {
+	return field.bacterias
+}
+
+func (field *gameFieldMock) addBacterium(microorganism microorganism) {
+	field.bacterias = append(field.bacterias, microorganism)
 }

@@ -1,5 +1,6 @@
 package bacterium
 
 type gameField interface {
-	getAllBacterias()
+	allBacterias() []microorganism
+	addBacterium(microorganism microorganism)
 }

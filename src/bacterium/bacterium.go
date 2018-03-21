@@ -5,10 +5,10 @@ import "github.com/vehsamrak/genetics/src/applicationError"
 const defaultLifePoints = 10
 
 type bacterium struct {
-	gameField  *gameField
+	gameField  gameField
 	lifePoints int
-	X          int
-	Y          int
+	x          int
+	y          int
 }
 
 // New bacterium constructor
@@ -53,18 +53,37 @@ func (bacterium *bacterium) Move(direction Direction) (error error) {
 		error = new(applicationError.CanNotMove)
 	}
 
+	destinationX := bacterium.x
+	destinationY := bacterium.y
+
 	switch direction {
 	case directionNorth:
-		bacterium.Y++
+		destinationY++
 	case directionEast:
-		bacterium.X++
+		destinationX++
 	case directionSouth:
-		bacterium.Y--
+		destinationY--
 	case directionWest:
-		bacterium.X--
+		destinationX--
 	}
 
+	for _, fieldBacterium := range bacterium.gameField.allBacterias() {
+		if destinationX == fieldBacterium.X() && destinationY == fieldBacterium.Y() {
+			return new(applicationError.CanNotMove)
+		}
+	}
+
+	bacterium.x = destinationX
+	bacterium.y = destinationY
 	bacterium.lifePoints--
 
 	return error
+}
+
+func (bacterium *bacterium) X() int {
+	return bacterium.x
+}
+
+func (bacterium *bacterium) Y() int {
+	return bacterium.y
 }

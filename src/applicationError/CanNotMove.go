@@ -1,9 +1,9 @@
 package applicationError
 
-// CanNotMove error: Bacterium can not move
+// CanNotMove error: Microorganism can not move
 type CanNotMove struct {
 }
 
 func (error *CanNotMove) Error() string {
-	return "Bacterium can't move"
+	return "Microorganism can't move"
 }
