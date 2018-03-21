@@ -154,9 +154,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoo
 }
 
 func createGameField() gameField {
-	mock := &gameFieldMock{}
-
-	return mock
+	return &gameFieldMock{}
 }
 
 type gameFieldMock struct {
