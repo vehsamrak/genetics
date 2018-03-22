@@ -48,9 +48,9 @@ var moveTestTable = []struct {
 	X         int
 	Y         int
 }{
-	{directionNorth, 0, 1},
+	{directionNorth, 0, -1},
 	{directionEast, 1, 0},
-	{directionSouth, 0, -1},
+	{directionSouth, 0, 1},
 	{directionWest, -1, 0},
 }
 
@@ -145,8 +145,8 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckErrorAndFirstBacteriumLostLifePoint() {
-	gameField := createGameFieldWithBacterium(1, 0, 1)
-	bacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
+	gameField := createGameFieldWithBacterium(1, 0, 0)
+	bacterium := &bacterium{lifePoints: 1, x: 0, y: 1, gameField: gameField}
 	gameField.addBacterium(bacterium)
 
 	err := bacterium.Move(directionNorth)
@@ -158,7 +158,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckError
 	assert.Equal(suite.T(), 0, bacterium.lifePoints)
 }
 
-func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_bacteriumLifePointsIncreased() {
+func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_bacteriumLifePointsIncreasedAndDeadBacteriumDisappears() {
 	gameField := createGameFieldWithDeadBacteriumInZeroCell()
 	initialLifePoints := 1
 	lifePointsAfterMeal := initialLifePoints - lifePointsCostEat + lifePointsGainEat
@@ -168,6 +168,7 @@ func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_b
 	bacterium.Eat(directionNorth)
 
 	assert.Equal(suite.T(), lifePointsAfterMeal, bacterium.lifePoints)
+	assert.Len(suite.T(), gameField.allBacterias(), 1)
 }
 
 func createGameFieldWithDeadBacteriumInZeroCell() gameField {
@@ -196,4 +197,14 @@ func (field *gameFieldMock) allBacterias() []microorganism {
 
 func (field *gameFieldMock) addBacterium(microorganism microorganism) {
 	field.bacterias = append(field.bacterias, microorganism)
+}
+
+func (field *gameFieldMock) removeBacterium(microorganism microorganism) {
+	for bacteriumKey, bacterium := range field.bacterias {
+		if bacterium == microorganism {
+			field.bacterias[bacteriumKey] = field.bacterias[len(field.bacterias)-1]
+			field.bacterias = field.bacterias[:len(field.bacterias)-1]
+			break
+		}
+	}
 }

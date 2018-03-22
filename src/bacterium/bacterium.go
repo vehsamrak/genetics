@@ -1,6 +1,10 @@
 package bacterium
 
-import "github.com/vehsamrak/genetics/src/applicationError"
+import (
+	"fmt"
+
+	"github.com/vehsamrak/genetics/src/applicationError"
+)
 
 const lifePointsGainBirth = 10
 const lifePointsGainEat = 10
@@ -17,6 +21,10 @@ type bacterium struct {
 // New bacterium constructor
 func New() bacterium {
 	return bacterium{lifePoints: lifePointsGainBirth}
+}
+
+func (bacterium *bacterium) GameField() gameField {
+	return bacterium.gameField
 }
 
 func (bacterium *bacterium) LifePoints() int {
@@ -56,19 +64,7 @@ func (bacterium *bacterium) Move(direction Direction) (error error) {
 		return new(applicationError.CanNotMove)
 	}
 
-	destinationX := bacterium.x
-	destinationY := bacterium.y
-
-	switch direction {
-	case directionNorth:
-		destinationY++
-	case directionEast:
-		destinationX++
-	case directionSouth:
-		destinationY--
-	case directionWest:
-		destinationX--
-	}
+	destinationX, destinationY := bacterium.getCoordinatesOfDirection(direction)
 
 	for _, fieldBacterium := range bacterium.gameField.allBacterias() {
 		if destinationX == fieldBacterium.X() && destinationY == fieldBacterium.Y() {
@@ -97,5 +93,56 @@ func (bacterium *bacterium) Y() int {
 
 func (bacterium *bacterium) Eat(direction Direction) {
 	bacterium.DeductLifePoints(lifePointsCostEat)
-	bacterium.AddLifePoints(lifePointsGainEat)
+
+	corpse := bacterium.getMicroorganismByDirection(direction)
+
+	if corpse != nil {
+		gameField := corpse.GameField()
+
+		fmt.Println(gameField)
+
+		gameField.removeBacterium(corpse)
+		bacterium.AddLifePoints(lifePointsGainEat)
+	}
+
+}
+
+func (bacterium *bacterium) getMicroorganismByDirection(direction Direction) (microorganism microorganism) {
+	destinationX, destinationY := bacterium.getCoordinatesOfDirection(direction)
+
+	for range bacterium.gameField.allBacterias() {
+		microorganism = bacterium.getMicroorganismByXY(destinationX, destinationY)
+		break
+	}
+
+	return microorganism
+}
+
+func (bacterium *bacterium) getMicroorganismByXY(x int, y int) (microorganism microorganism) {
+	for _, fieldBacterium := range bacterium.gameField.allBacterias() {
+		if x == fieldBacterium.X() && y == fieldBacterium.Y() {
+			microorganism = fieldBacterium
+			break
+		}
+	}
+
+	return microorganism
+}
+
+func (bacterium *bacterium) getCoordinatesOfDirection(direction Direction) (destinationX int, destinationY int) {
+	destinationX = bacterium.x
+	destinationY = bacterium.y
+
+	switch direction {
+	case directionNorth:
+		destinationY--
+	case directionEast:
+		destinationX++
+	case directionSouth:
+		destinationY++
+	case directionWest:
+		destinationX--
+	}
+
+	return destinationX, destinationY
 }
