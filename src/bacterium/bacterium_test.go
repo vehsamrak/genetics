@@ -77,7 +77,7 @@ func (suite *BacteriumTestSuite) Test_New_newBacterium_defaultAmountOfLifePoints
 func (suite *BacteriumTestSuite) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {
 	bacterium := bacterium{lifePoints: 1}
 
-	lifePoints := bacterium.GetLifePoints()
+	lifePoints := bacterium.LifePoints()
 
 	assert.Equal(suite.T(), 1, lifePoints)
 }
@@ -145,19 +145,41 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckErrorAndFirstBacteriumLostLifePoint() {
-	gameField := createGameField()
-	northBacterium := &bacterium{lifePoints: 1, x: 0, y: 1, gameField: gameField}
-	southBacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
-	gameField.addBacterium(northBacterium)
-	gameField.addBacterium(southBacterium)
+	gameField := createGameFieldWithBacterium(1, 0, 1)
+	bacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
+	gameField.addBacterium(bacterium)
 
-	err := southBacterium.Move(directionNorth)
+	err := bacterium.Move(directionNorth)
 
 	assert.NotNil(suite.T(), err)
 	_, ok := err.(*applicationError.Stuck)
 	assert.True(suite.T(), ok)
 	assert.Equal(suite.T(), "Microorganism can't move to the field where another one stands", err.Error())
-	assert.Equal(suite.T(), 0, southBacterium.lifePoints)
+	assert.Equal(suite.T(), 0, bacterium.lifePoints)
+}
+
+func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_bacteriumLifePointsIncreased() {
+	gameField := createGameFieldWithDeadBacteriumInZeroCell()
+	initialLifePoints := 1
+	lifePointsAfterMeal := initialLifePoints - lifePointsCostEat + lifePointsGainEat
+	bacterium := &bacterium{lifePoints: initialLifePoints, x: 0, y: 1, gameField: gameField}
+	gameField.addBacterium(bacterium)
+
+	bacterium.Eat(directionNorth)
+
+	assert.Equal(suite.T(), lifePointsAfterMeal, bacterium.lifePoints)
+}
+
+func createGameFieldWithDeadBacteriumInZeroCell() gameField {
+	return createGameFieldWithBacterium(0, 0, 0)
+}
+
+func createGameFieldWithBacterium(lifePoints int, x int, y int) gameField {
+	gameField := createGameField()
+	bacterium := &bacterium{lifePoints: lifePoints, x: x, y: y, gameField: gameField}
+	gameField.addBacterium(bacterium)
+
+	return gameField
 }
 
 func createGameField() gameField {

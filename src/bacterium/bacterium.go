@@ -2,7 +2,10 @@ package bacterium
 
 import "github.com/vehsamrak/genetics/src/applicationError"
 
-const defaultLifePoints = 10
+const lifePointsGainBirth = 10
+const lifePointsGainEat = 10
+const lifePointsCostMove = 1
+const lifePointsCostEat = 1
 
 type bacterium struct {
 	gameField  gameField
@@ -13,10 +16,10 @@ type bacterium struct {
 
 // New bacterium constructor
 func New() bacterium {
-	return bacterium{lifePoints: defaultLifePoints}
+	return bacterium{lifePoints: lifePointsGainBirth}
 }
 
-func (bacterium *bacterium) GetLifePoints() int {
+func (bacterium *bacterium) LifePoints() int {
 	return bacterium.lifePoints
 }
 
@@ -74,7 +77,7 @@ func (bacterium *bacterium) Move(direction Direction) (error error) {
 		}
 	}
 
-	bacterium.lifePoints--
+	bacterium.DeductLifePoints(lifePointsCostMove)
 
 	if error == nil {
 		bacterium.x = destinationX
@@ -90,4 +93,9 @@ func (bacterium *bacterium) X() int {
 
 func (bacterium *bacterium) Y() int {
 	return bacterium.y
+}
+
+func (bacterium *bacterium) Eat(direction Direction) {
+	bacterium.DeductLifePoints(lifePointsCostEat)
+	bacterium.AddLifePoints(lifePointsGainEat)
 }
