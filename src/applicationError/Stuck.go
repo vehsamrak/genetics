@@ -5,5 +5,5 @@ type Stuck struct {
 }
 
 func (error *Stuck) Error() string {
-	return "Microorganism can't move where another stands"
+	return "Microorganism can't move to the field where another one stands"
 }

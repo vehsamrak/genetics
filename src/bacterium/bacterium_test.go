@@ -130,6 +130,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumM
 
 		assert.Nil(suite.T(), err)
 		assert.Equal(suite.T(), dataset.X, bacterium.x, fmt.Sprintf("Dataset #%v", id))
+		assert.Equal(suite.T(), dataset.Y, bacterium.y, fmt.Sprintf("Dataset #%v", id))
 		assert.Equal(suite.T(), 1, bacterium.lifePoints, fmt.Sprintf("Dataset #%v", id))
 	}
 }
@@ -143,16 +144,20 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 	assert.True(suite.T(), bacterium.IsDead())
 }
 
-func (suite *BacteriumTestSuite) Test_Move_bacteriumNearAnotherOne_cantMoveToCoordinatesWhereAnotherStandsError() {
+func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckErrorAndFirstBacteriumLostLifePoint() {
 	gameField := createGameField()
-	northBacterium := &bacterium{lifePoints: defaultLifePoints, x: 0, y: 1, gameField: gameField}
-	southBacterium := &bacterium{lifePoints: defaultLifePoints, x: 0, y: 0, gameField: gameField}
+	northBacterium := &bacterium{lifePoints: 1, x: 0, y: 1, gameField: gameField}
+	southBacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
 	gameField.addBacterium(northBacterium)
 	gameField.addBacterium(southBacterium)
 
 	err := southBacterium.Move(directionNorth)
 
 	assert.NotNil(suite.T(), err)
+	_, ok := err.(*applicationError.Stuck)
+	assert.True(suite.T(), ok)
+	assert.Equal(suite.T(), "Microorganism can't move to the field where another one stands", err.Error())
+	assert.Equal(suite.T(), 0, southBacterium.lifePoints)
 }
 
 func createGameField() gameField {

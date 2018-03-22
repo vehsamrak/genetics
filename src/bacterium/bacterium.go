@@ -50,7 +50,7 @@ func (bacterium *bacterium) IsDead() bool {
 
 func (bacterium *bacterium) Move(direction Direction) (error error) {
 	if bacterium.IsDead() {
-		error = new(applicationError.CanNotMove)
+		return new(applicationError.CanNotMove)
 	}
 
 	destinationX := bacterium.x
@@ -69,13 +69,17 @@ func (bacterium *bacterium) Move(direction Direction) (error error) {
 
 	for _, fieldBacterium := range bacterium.gameField.allBacterias() {
 		if destinationX == fieldBacterium.X() && destinationY == fieldBacterium.Y() {
-			return new(applicationError.CanNotMove)
+			error = new(applicationError.Stuck)
+			break
 		}
 	}
 
-	bacterium.x = destinationX
-	bacterium.y = destinationY
 	bacterium.lifePoints--
+
+	if error == nil {
+		bacterium.x = destinationX
+		bacterium.y = destinationY
+	}
 
 	return error
 }
