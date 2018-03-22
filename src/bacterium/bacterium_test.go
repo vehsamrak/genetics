@@ -202,8 +202,7 @@ func (field *gameFieldMock) addBacterium(microorganism microorganism) {
 func (field *gameFieldMock) removeBacterium(microorganism microorganism) {
 	for bacteriumKey, bacterium := range field.bacterias {
 		if bacterium == microorganism {
-			field.bacterias[bacteriumKey] = field.bacterias[len(field.bacterias)-1]
-			field.bacterias = field.bacterias[:len(field.bacterias)-1]
+			field.bacterias = append(field.bacterias[:bacteriumKey], field.bacterias[bacteriumKey+1:]...)
 			break
 		}
 	}
