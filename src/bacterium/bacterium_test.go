@@ -172,13 +172,21 @@ func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_b
 }
 
 func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointAndNoMoreBacterias_bacteriumLifePointsDecreasedToZero() {
-	gameField := createGameField()
-	bacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
-	gameField.addBacterium(bacterium)
+	bacterium := &bacterium{lifePoints: 1, gameField: createGameField()}
 
 	bacterium.Eat(directionNorth)
 
 	assert.Equal(suite.T(), 0, bacterium.lifePoints)
+}
+
+func (suite *BacteriumTestSuite) Test_Eat_deadBacterium_isDeadError() {
+	bacterium := &bacterium{lifePoints: 0, gameField: createGameField()}
+
+	err := bacterium.Eat(directionNorth)
+
+	_, ok := err.(*applicationError.IsDead)
+	assert.True(suite.T(), ok)
+	assert.Equal(suite.T(), "Microorganism can't process actions after death", err.Error())
 }
 
 func createGameFieldWithDeadBacteriumInZeroCell() gameField {

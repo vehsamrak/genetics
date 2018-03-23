@@ -59,7 +59,7 @@ func (bacterium *bacterium) IsDead() bool {
 
 func (bacterium *bacterium) Move(direction Direction) (error error) {
 	if bacterium.IsDead() {
-		return new(applicationError.CanNotMove)
+		return &applicationError.CanNotMove{}
 	}
 
 	destinationX, destinationY := bacterium.getCoordinatesOfDirection(direction)
@@ -78,7 +78,7 @@ func (bacterium *bacterium) Move(direction Direction) (error error) {
 		bacterium.y = destinationY
 	}
 
-	return error
+	return
 }
 
 func (bacterium *bacterium) X() int {
@@ -89,7 +89,11 @@ func (bacterium *bacterium) Y() int {
 	return bacterium.y
 }
 
-func (bacterium *bacterium) Eat(direction Direction) {
+func (bacterium *bacterium) Eat(direction Direction) (err error) {
+	if bacterium.IsDead() {
+		return &applicationError.IsDead{}
+	}
+
 	bacterium.DeductLifePoints(lifePointsCostEat)
 
 	corpse := bacterium.getMicroorganismByDirection(direction)
@@ -99,6 +103,7 @@ func (bacterium *bacterium) Eat(direction Direction) {
 		bacterium.AddLifePoints(lifePointsGainEat)
 	}
 
+	return
 }
 
 func (bacterium *bacterium) getMicroorganismByDirection(direction Direction) (microorganism microorganism) {
@@ -109,7 +114,7 @@ func (bacterium *bacterium) getMicroorganismByDirection(direction Direction) (mi
 		break
 	}
 
-	return microorganism
+	return
 }
 
 func (bacterium *bacterium) getMicroorganismByXY(x int, y int) (microorganism microorganism) {
@@ -120,7 +125,7 @@ func (bacterium *bacterium) getMicroorganismByXY(x int, y int) (microorganism mi
 		}
 	}
 
-	return microorganism
+	return
 }
 
 func (bacterium *bacterium) getCoordinatesOfDirection(direction Direction) (destinationX int, destinationY int) {
@@ -138,5 +143,5 @@ func (bacterium *bacterium) getCoordinatesOfDirection(direction Direction) (dest
 		destinationX--
 	}
 
-	return destinationX, destinationY
+	return
 }
