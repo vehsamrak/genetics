@@ -189,6 +189,26 @@ func (suite *BacteriumTestSuite) Test_Eat_deadBacterium_isDeadError() {
 	assert.Equal(suite.T(), "Microorganism can't process actions after death", err.Error())
 }
 
+func (suite *BacteriumTestSuite) Test_Photosynthesize_aliveBacterium_lifePointsIncreased() {
+	lifePointsBeforePhotosynthesize := 1
+	bacterium := &bacterium{lifePoints: lifePointsBeforePhotosynthesize}
+	lifePointsAfterPhotosynthesize := lifePointsBeforePhotosynthesize + lifePointsGainPhotosynthesize
+
+	bacterium.Photosynthesize()
+
+	assert.Equal(suite.T(), lifePointsAfterPhotosynthesize, bacterium.lifePoints)
+}
+
+func (suite *BacteriumTestSuite) Test_Photosynthesize_deadBacterium_isDeadError() {
+	bacterium := &bacterium{lifePoints: 0}
+
+	err := bacterium.Photosynthesize()
+
+	_, ok := err.(*applicationError.IsDead)
+	assert.True(suite.T(), ok)
+	assert.Equal(suite.T(), "Microorganism can't process actions after death", err.Error())
+}
+
 func createGameFieldWithDeadBacteriumInZeroCell() gameField {
 	return createGameFieldWithBacterium(0, 0, 0)
 }

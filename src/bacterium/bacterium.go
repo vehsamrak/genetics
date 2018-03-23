@@ -4,10 +4,11 @@ import (
 	"github.com/vehsamrak/genetics/src/applicationError"
 )
 
+const lifePointsCostEat = 1
+const lifePointsCostMove = 1
 const lifePointsGainBirth = 10
 const lifePointsGainEat = 10
-const lifePointsCostMove = 1
-const lifePointsCostEat = 1
+const lifePointsGainPhotosynthesize = 1
 
 type bacterium struct {
 	gameField  gameField
@@ -102,6 +103,16 @@ func (bacterium *bacterium) Eat(direction Direction) (err error) {
 		corpse.GameField().removeBacterium(corpse)
 		bacterium.AddLifePoints(lifePointsGainEat)
 	}
+
+	return
+}
+
+func (bacterium *bacterium) Photosynthesize() (err error) {
+	if bacterium.IsDead() {
+		return &applicationError.IsDead{}
+	}
+
+	bacterium.AddLifePoints(lifePointsGainPhotosynthesize)
 
 	return
 }
