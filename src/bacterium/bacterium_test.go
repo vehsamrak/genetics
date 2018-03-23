@@ -171,6 +171,16 @@ func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_b
 	assert.Len(suite.T(), gameField.allBacterias(), 1)
 }
 
+func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointAndNoMoreBacterias_bacteriumLifePointsDecreasedToZero() {
+	gameField := createGameField()
+	bacterium := &bacterium{lifePoints: 1, x: 0, y: 0, gameField: gameField}
+	gameField.addBacterium(bacterium)
+
+	bacterium.Eat(directionNorth)
+
+	assert.Equal(suite.T(), 0, bacterium.lifePoints)
+}
+
 func createGameFieldWithDeadBacteriumInZeroCell() gameField {
 	return createGameFieldWithBacterium(0, 0, 0)
 }
