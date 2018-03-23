@@ -1,8 +1,6 @@
 package bacterium
 
 import (
-	"fmt"
-
 	"github.com/vehsamrak/genetics/src/applicationError"
 )
 
@@ -97,11 +95,7 @@ func (bacterium *bacterium) Eat(direction Direction) {
 	corpse := bacterium.getMicroorganismByDirection(direction)
 
 	if corpse != nil {
-		gameField := corpse.GameField()
-
-		fmt.Println(gameField)
-
-		gameField.removeBacterium(corpse)
+		corpse.GameField().removeBacterium(corpse)
 		bacterium.AddLifePoints(lifePointsGainEat)
 	}
 
