@@ -6,5 +6,7 @@ type genePool struct {
 }
 
 func (genePool *genePool) Next() {
-	genePool.cursor++
+	if len(genePool.genes) > 0 {
+		genePool.cursor++
+	}
 }
