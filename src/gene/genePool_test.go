@@ -1,6 +1,7 @@
 package gene
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -15,19 +16,23 @@ type GenePoolTestSuite struct {
 	suite.Suite
 }
 
-func (suite *GenePoolTestSuite) Test_Next_genePoolWithTwoGenesAndCursorOnZero_cursorMovedToNextGene() {
-	genes := make([]*gene, 2)
-	genePool := genePool{cursor: 0, genes: genes}
-
-	genePool.Next()
-
-	assert.Equal(suite.T(), 1, genePool.cursor)
+var nextTestTable = []struct {
+	genesCount     int
+	initialCursor  int
+	expectedCursor int
+}{
+	{0, 0, 0},
+	{2, 1, 0},
+	{2, 0, 1},
+	{3, 1, 2},
 }
 
-func (suite *GenePoolTestSuite) Test_Next_genePoolWithoutGenesAndCursorOnZero_cursorStaysOnZero() {
-	genePool := genePool{cursor: 0}
+func (suite *GenePoolTestSuite) Test_Next_genePoolWithGenesCollectionAndCursor_cursorMovedAsExpected() {
+	for id, dataset := range nextTestTable {
+		genePool := genePool{cursor: dataset.initialCursor, genes: make([]*gene, dataset.genesCount)}
 
-	genePool.Next()
+		genePool.Next()
 
-	assert.Equal(suite.T(), 0, genePool.cursor)
+		assert.Equal(suite.T(), dataset.expectedCursor, genePool.cursor, fmt.Sprintf("Dataset #%v", id))
+	}
 }

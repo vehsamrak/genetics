@@ -6,7 +6,15 @@ type genePool struct {
 }
 
 func (genePool *genePool) Next() {
-	if len(genePool.genes) > 0 {
+	genePoolLength := len(genePool.genes)
+
+	if genePoolLength == 0 {
+		return
+	}
+
+	if genePool.cursor < genePoolLength-1 {
 		genePool.cursor++
+	} else {
+		genePool.cursor = 0
 	}
 }
