@@ -29,10 +29,19 @@ var nextTestTable = []struct {
 
 func (suite *GenePoolTestSuite) Test_Next_genePoolWithGenesCollectionAndCursor_cursorMovedAsExpected() {
 	for id, dataset := range nextTestTable {
-		genePool := genePool{cursor: dataset.initialCursor, genes: make([]*gene, dataset.genesCount)}
+		genePool := genePool{cursor: dataset.initialCursor, genes: make([]gene, dataset.genesCount)}
 
 		genePool.Next()
 
 		assert.Equal(suite.T(), dataset.expectedCursor, genePool.cursor, fmt.Sprintf("Dataset #%v", id))
 	}
+}
+
+func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() {
+	genePool := genePool{}
+	gene := &photosynthesizeGene{}
+
+	genePool.Add(gene)
+
+	assert.Len(suite.T(), genePool.genes, 1)
 }

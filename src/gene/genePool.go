@@ -2,7 +2,7 @@ package gene
 
 type genePool struct {
 	cursor int
-	genes  []*gene
+	genes  []gene
 }
 
 func (genePool *genePool) Next() {
@@ -17,4 +17,8 @@ func (genePool *genePool) Next() {
 	} else {
 		genePool.cursor = 0
 	}
+}
+
+func (genePool *genePool) Add(gene gene) {
+	genePool.genes = append(genePool.genes, gene)
 }
