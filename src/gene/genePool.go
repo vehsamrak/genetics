@@ -22,3 +22,16 @@ func (genePool *genePool) Next() {
 func (genePool *genePool) Add(gene gene) {
 	genePool.genes = append(genePool.genes, gene)
 }
+
+func (genePool *genePool) ExecuteCurrentGene() (ok bool, err error) {
+	var cursor int
+
+	if genePool.cursor > 0 {
+		cursor = genePool.cursor - 1
+	}
+
+	gene := genePool.genes[cursor]
+	ok, err = gene.Act()
+
+	return
+}

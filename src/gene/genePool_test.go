@@ -45,3 +45,13 @@ func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() 
 
 	assert.Len(suite.T(), genePool.genes, 1)
 }
+
+func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCursorOnIt_geneUnderCursorActs() {
+	genePool := genePool{}
+	genePool.Add(&photosynthesizeGene{})
+
+	ok, err := genePool.ExecuteCurrentGene()
+
+	assert.True(suite.T(), ok)
+	assert.Nil(suite.T(), err)
+}
