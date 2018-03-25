@@ -1,5 +1,9 @@
 package gameField
 
+import Bacterium "github.com/vehsamrak/genetics/src/bacterium"
+
+const microorganismsInitialCount = 10
+
 type gameField struct {
 	microorganisms []microorganism
 }
@@ -23,5 +27,12 @@ func (field *gameField) removeBacterium(microorganism microorganism) {
 			field.microorganisms = field.microorganisms[:len(field.microorganisms)-1]
 			break
 		}
+	}
+}
+
+func (field *gameField) Populate() {
+	for i := 0; i < microorganismsInitialCount; i++ {
+		bacterium := Bacterium.New()
+		field.addBacterium(bacterium)
 	}
 }
