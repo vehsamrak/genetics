@@ -71,7 +71,7 @@ func (suite *BacteriumTestSuite) Test_New_newBacterium_defaultAmountOfLifePoints
 	bacterium := New()
 	defaultLifePoints := 10
 
-	assert.Equal(suite.T(), bacterium.lifePoints, defaultLifePoints)
+	assert.Equal(suite.T(), bacterium.LifePoints(), defaultLifePoints)
 }
 
 func (suite *BacteriumTestSuite) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {

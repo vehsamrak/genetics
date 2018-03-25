@@ -6,4 +6,5 @@ type microorganism interface {
 	IsDead() bool
 	X() int
 	Y() int
+	LifePoints() int
 }

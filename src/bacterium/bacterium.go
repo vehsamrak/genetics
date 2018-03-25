@@ -18,8 +18,8 @@ type bacterium struct {
 }
 
 // New bacterium constructor
-func New() bacterium {
-	return bacterium{lifePoints: lifePointsGainBirth}
+func New() microorganism {
+	return &bacterium{lifePoints: lifePointsGainBirth}
 }
 
 func (bacterium *bacterium) GameField() gameField {

@@ -15,10 +15,29 @@ type gameFieldTestSuite struct {
 	suite.Suite
 }
 
-func (suite *gameFieldTestSuite) Test_New_noGameField_gameFieldCreatedWithDefaultValues() {
+func (suite *gameFieldTestSuite) Test_New_defaultBacteriumInitialCount_gameFieldCreatedWithExpectedAmountOfBacterias() {
 	gameField := New()
 
-	assert.Len(suite.T(), gameField.microorganisms, bacteriumInitialCount)
+	assert.Len(suite.T(), gameField.allBacterias(), bacteriumInitialCount)
+}
+
+func (suite *gameFieldTestSuite) Test_addBacterium_fieldWithoutBacterias_bacteriumAddedToField() {
+	gameField := gameField{}
+	microorganism := createMicroorganism()
+
+	gameField.addBacterium(microorganism)
+
+	assert.Len(suite.T(), gameField.microorganisms, 1)
+}
+
+func (suite *gameFieldTestSuite) Test_removeBacterium_fieldWithOneBacterium_bacteriumRemovedFromField() {
+	gameField := gameField{}
+	microorganism := createMicroorganism()
+	gameField.addBacterium(microorganism)
+
+	gameField.removeBacterium(microorganism)
+
+	assert.Len(suite.T(), gameField.microorganisms, 0)
 }
 
 func (suite *gameFieldTestSuite) Test_populate_emptyGameField_microorganismsAddedToGameField() {
@@ -27,4 +46,15 @@ func (suite *gameFieldTestSuite) Test_populate_emptyGameField_microorganismsAdde
 	gameField.populate()
 
 	assert.Len(suite.T(), gameField.microorganisms, bacteriumInitialCount)
+}
+
+func createMicroorganism() microorganism {
+	return &bacteriumMock{}
+}
+
+type bacteriumMock struct {
+}
+
+func (bacterium *bacteriumMock) IsAlive() bool {
+	return true
 }
