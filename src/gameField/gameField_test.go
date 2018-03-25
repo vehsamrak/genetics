@@ -15,10 +15,16 @@ type gameFieldTestSuite struct {
 	suite.Suite
 }
 
-func (suite *gameFieldTestSuite) Test_Populate_emptyGameField_microorganismsAddedToGameField() {
+func (suite *gameFieldTestSuite) Test_New_noGameField_gameFieldCreatedWithDefaultValues() {
+	gameField := New()
+
+	assert.Len(suite.T(), gameField.microorganisms, bacteriumInitialCount)
+}
+
+func (suite *gameFieldTestSuite) Test_populate_emptyGameField_microorganismsAddedToGameField() {
 	gameField := gameField{}
 
-	gameField.Populate()
+	gameField.populate()
 
 	assert.Len(suite.T(), gameField.microorganisms, bacteriumInitialCount)
 }

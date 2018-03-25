@@ -9,7 +9,10 @@ type gameField struct {
 }
 
 func New() gameField {
-	return gameField{}
+	gameField := gameField{}
+	gameField.populate()
+
+	return gameField
 }
 
 func (field *gameField) allBacterias() []microorganism {
@@ -30,7 +33,7 @@ func (field *gameField) removeBacterium(microorganism microorganism) {
 	}
 }
 
-func (field *gameField) Populate() {
+func (field *gameField) populate() {
 	for i := 0; i < bacteriumInitialCount; i++ {
 		bacterium := Bacterium.New()
 		field.addBacterium(bacterium)
