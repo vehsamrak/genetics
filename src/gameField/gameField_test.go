@@ -20,5 +20,5 @@ func (suite *gameFieldTestSuite) Test_Populate_emptyGameField_microorganismsAdde
 
 	gameField.Populate()
 
-	assert.Len(suite.T(), gameField.microorganisms, microorganismsInitialCount)
+	assert.Len(suite.T(), gameField.microorganisms, bacteriumInitialCount)
 }
