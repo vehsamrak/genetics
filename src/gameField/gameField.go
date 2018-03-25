@@ -8,6 +8,7 @@ type gameField struct {
 	microorganisms []microorganism
 }
 
+// New game field constructor
 func New() gameField {
 	gameField := gameField{}
 	gameField.populate()
