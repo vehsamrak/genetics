@@ -24,13 +24,7 @@ func (genePool *genePool) Add(gene gene) {
 }
 
 func (genePool *genePool) ExecuteCurrentGene() (ok bool, err error) {
-	var cursor int
-
-	if genePool.cursor > 0 {
-		cursor = genePool.cursor - 1
-	}
-
-	gene := genePool.genes[cursor]
+	gene := genePool.genes[genePool.cursor]
 	ok, err = gene.Act()
 
 	return

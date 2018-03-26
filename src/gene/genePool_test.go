@@ -52,8 +52,8 @@ func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCurso
 	genePool.Add(&moveNorthGene{})
 
 	for range genePool.genes {
-		ok, err := genePool.ExecuteCurrentGene()
 		genePool.Next()
+		ok, err := genePool.ExecuteCurrentGene()
 
 		assert.True(suite.T(), ok)
 		assert.Nil(suite.T(), err)
