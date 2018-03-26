@@ -51,12 +51,12 @@ func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCurso
 	genePool.Add(&photosynthesizeGene{})
 	genePool.Add(&moveNorthGene{})
 
-	firstGeneOk, firstGeneError := genePool.ExecuteCurrentGene()
-	genePool.Next()
-	secondGeneOk, secondGeneError := genePool.ExecuteCurrentGene()
+	for range genePool.genes {
+		ok, err := genePool.ExecuteCurrentGene()
+		genePool.Next()
 
-	assert.True(suite.T(), firstGeneOk)
-	assert.Nil(suite.T(), firstGeneError)
-	assert.True(suite.T(), secondGeneOk)
-	assert.Nil(suite.T(), secondGeneError)
+		assert.True(suite.T(), ok)
+		assert.Nil(suite.T(), err)
+	}
+
 }
