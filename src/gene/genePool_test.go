@@ -49,7 +49,7 @@ func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() 
 func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCursorOnIt_geneUnderCursorActs() {
 	genePool := genePool{}
 	genePool.Add(&photosynthesizeGene{})
-	genePool.Add(&photosynthesizeGene{})
+	genePool.Add(&moveNorthGene{})
 
 	firstGeneOk, firstGeneError := genePool.ExecuteCurrentGene()
 	genePool.Next()
