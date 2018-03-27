@@ -50,6 +50,9 @@ func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCurso
 	genePool := genePool{}
 	genePool.Add(&photosynthesizeGene{})
 	genePool.Add(&moveNorthGene{})
+	genePool.Add(&moveEastGene{})
+	genePool.Add(&moveSouthGene{})
+	genePool.Add(&moveWestGene{})
 
 	for range genePool.genes {
 		genePool.Next()
