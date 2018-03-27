@@ -11,6 +11,12 @@ func (factory *GeneFactory) Create(geneType GeneType) (gene gene) {
 		gene = &photosynthesizeGene{}
 	case geneTypeMoveNorth:
 		gene = &moveNorthGene{}
+	case geneTypeMoveEast:
+		gene = &moveEastGene{}
+	case geneTypeMoveSouth:
+		gene = &moveSouthGene{}
+	case geneTypeMoveWest:
+		gene = &moveWestGene{}
 	}
 
 	return

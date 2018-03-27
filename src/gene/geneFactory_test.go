@@ -22,6 +22,9 @@ var geneTypeTestTable = []struct {
 }{
 	{geneTypePhotosynthesize, "P"},
 	{geneTypeMoveNorth, "^"},
+	{geneTypeMoveEast, ">"},
+	{geneTypeMoveSouth, "v"},
+	{geneTypeMoveWest, "<"},
 }
 
 func (suite *GeneFactoryTestSuite) Test_Create_geneType_newGeneCreatedAndCodeIsCorrect() {
