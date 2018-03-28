@@ -47,13 +47,7 @@ func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() 
 }
 
 func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCursorOnIt_geneUnderCursorActs() {
-	genePool := genePool{}
-	genePool.Add(&eatGene{})
-	genePool.Add(&moveEastGene{})
-	genePool.Add(&moveNorthGene{})
-	genePool.Add(&moveSouthGene{})
-	genePool.Add(&moveWestGene{})
-	genePool.Add(&photosynthesizeGene{})
+	genePool := genePool{genes: suite.getAllAvailableGenes()}
 
 	for range genePool.genes {
 		genePool.Next()
@@ -62,5 +56,16 @@ func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCurso
 		assert.True(suite.T(), ok)
 		assert.Nil(suite.T(), err)
 	}
+}
 
+func (suite *GenePoolTestSuite) getAllAvailableGenes() []gene {
+	return []gene{
+		&eatGene{},
+		&moveEastGene{},
+		&moveNorthGene{},
+		&moveSouthGene{},
+		&moveWestGene{},
+		&photosynthesizeGene{},
+		&waitGene{},
+	}
 }

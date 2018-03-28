@@ -10,4 +10,5 @@ const (
 	geneTypeMoveEast
 	geneTypeMoveSouth
 	geneTypeMoveWest
+	geneTypeWait
 )

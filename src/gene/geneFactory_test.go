@@ -26,6 +26,7 @@ var geneTypeTestTable = []struct {
 	{geneTypeMoveSouth, "v"},
 	{geneTypeMoveWest, "<"},
 	{geneTypeEat, "F"},
+	{geneTypeWait, "."},
 }
 
 func (suite *GeneFactoryTestSuite) Test_Create_geneType_newGeneCreatedAndCodeIsCorrect() {
