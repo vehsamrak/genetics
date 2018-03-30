@@ -113,7 +113,7 @@ func (suite *BacteriumTestSuite) Test_IsAlive_bacteriumWithPoints_bacteriumAlive
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithoutLifePoints_canNotMoveError() {
-	bacterium := bacterium{lifePoints: 0, gameField: createGameField()}
+	bacterium := bacterium{lifePoints: 0, gameField: suite.createGameField()}
 
 	err := bacterium.Move(directionNorth)
 
@@ -124,7 +124,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithoutLifePoints_canNotMove
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumMovedAndOneLifePointLeft() {
 	for id, dataset := range moveTestTable {
-		bacterium := bacterium{lifePoints: 2, gameField: createGameField()}
+		bacterium := bacterium{lifePoints: 2, gameField: suite.createGameField()}
 
 		err := bacterium.Move(dataset.direction)
 
@@ -136,7 +136,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithTwoLifePoints_bacteriumM
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMovedAndBecameDead() {
-	bacterium := bacterium{lifePoints: 1, gameField: createGameField()}
+	bacterium := bacterium{lifePoints: 1, gameField: suite.createGameField()}
 
 	err := bacterium.Move(directionNorth)
 
@@ -145,7 +145,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumWithOneLifePoint_bacteriumMo
 }
 
 func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckErrorAndFirstBacteriumLostLifePoint() {
-	gameField := createGameFieldWithBacterium(1, 0, 0)
+	gameField := suite.createGameFieldWithBacterium(1, 0, 0)
 	bacterium := &bacterium{lifePoints: 1, x: 0, y: 1, gameField: gameField}
 	gameField.addBacterium(bacterium)
 
@@ -159,7 +159,7 @@ func (suite *BacteriumTestSuite) Test_Move_bacteriumMovesToAnotherOne_stuckError
 }
 
 func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_bacteriumLifePointsIncreasedAndDeadBacteriumDisappears() {
-	gameField := createGameFieldWithDeadBacteriumInZeroCell()
+	gameField := suite.createGameFieldWithDeadBacteriumInZeroCell()
 	initialLifePoints := 1
 	lifePointsAfterMeal := initialLifePoints - lifePointsCostEat + lifePointsGainEat
 	bacterium := &bacterium{lifePoints: initialLifePoints, x: 0, y: 1, gameField: gameField}
@@ -172,7 +172,7 @@ func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointEatsDeadOne_b
 }
 
 func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointAndNoMoreBacterias_bacteriumLifePointsDecreasedToZero() {
-	bacterium := &bacterium{lifePoints: 1, gameField: createGameField()}
+	bacterium := &bacterium{lifePoints: 1, gameField: suite.createGameField()}
 
 	bacterium.Eat(directionNorth)
 
@@ -180,7 +180,7 @@ func (suite *BacteriumTestSuite) Test_Eat_bacteriumWithOneLifePointAndNoMoreBact
 }
 
 func (suite *BacteriumTestSuite) Test_Eat_deadBacterium_isDeadError() {
-	bacterium := &bacterium{lifePoints: 0, gameField: createGameField()}
+	bacterium := &bacterium{lifePoints: 0, gameField: suite.createGameField()}
 
 	err := bacterium.Eat(directionNorth)
 
@@ -209,19 +209,19 @@ func (suite *BacteriumTestSuite) Test_Photosynthesize_deadBacterium_isDeadError(
 	assert.Equal(suite.T(), "Microorganism can't process actions after death", err.Error())
 }
 
-func createGameFieldWithDeadBacteriumInZeroCell() gameField {
-	return createGameFieldWithBacterium(0, 0, 0)
+func (suite *BacteriumTestSuite) createGameFieldWithDeadBacteriumInZeroCell() gameField {
+	return suite.createGameFieldWithBacterium(0, 0, 0)
 }
 
-func createGameFieldWithBacterium(lifePoints int, x int, y int) gameField {
-	gameField := createGameField()
+func (suite *BacteriumTestSuite) createGameFieldWithBacterium(lifePoints int, x int, y int) gameField {
+	gameField := suite.createGameField()
 	bacterium := &bacterium{lifePoints: lifePoints, x: x, y: y, gameField: gameField}
 	gameField.addBacterium(bacterium)
 
 	return gameField
 }
 
-func createGameField() gameField {
+func (suite *BacteriumTestSuite) createGameField() gameField {
 	return &gameFieldMock{}
 }
 
