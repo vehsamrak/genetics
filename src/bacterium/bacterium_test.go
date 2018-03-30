@@ -207,9 +207,10 @@ func (suite *BacteriumTestSuite) Test_GenePool_bacteriumWithGenes_genePoolReturn
 
 	assert.Equal(suite.T(), 1, genePool.CountGenes())
 }
+
 func (suite *BacteriumTestSuite) createBacteriumWithGenes() *bacterium {
 	geneFactory := Gene.GeneFactory{}
-	gene := geneFactory.Create(Gene.GeneTypeWait)
+	gene := geneFactory.CreateGene(Gene.GeneTypeWait)
 
 	genePool := &Gene.GenePool{}
 	genePool.Add(gene)

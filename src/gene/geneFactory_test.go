@@ -29,20 +29,20 @@ var geneTypeTestTable = []struct {
 	{GeneTypeWait, "."},
 }
 
-func (suite *GeneFactoryTestSuite) Test_Create_geneType_newGeneCreatedAndCodeIsCorrect() {
+func (suite *GeneFactoryTestSuite) Test_CreateGene_geneType_newGeneCreatedAndCodeIsCorrect() {
 	factory := &GeneFactory{}
 
 	for id, dataset := range geneTypeTestTable {
-		gene := factory.Create(dataset.geneType)
+		gene := factory.CreateGene(dataset.geneType)
 
 		assert.Equal(suite.T(), dataset.geneCode, gene.Code(), fmt.Sprintf("Dataset #%v", id))
 	}
 }
 
-func (suite *GeneFactoryTestSuite) Test_Code_moveNorthGeneTypeCreation_newGeneFactoryCreatedAndCodeIsCorrect() {
+func (suite *GeneFactoryTestSuite) Test_CreateGene_moveNorthGeneTypeCreation_newGeneCreatedWithCorrectType() {
 	factory := &GeneFactory{}
 
-	gene := factory.Create(GeneTypePhotosynthesize)
+	gene := factory.CreateGene(GeneTypePhotosynthesize)
 
 	_, ok := gene.(*photosynthesizeGene)
 	assert.True(suite.T(), ok)

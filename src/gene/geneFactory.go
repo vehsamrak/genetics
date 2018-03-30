@@ -4,8 +4,8 @@ package gene
 type GeneFactory struct {
 }
 
-// Create new gene by its type
-func (factory *GeneFactory) Create(geneType GeneType) (gene gene) {
+// CreateGene new gene by its type
+func (factory *GeneFactory) CreateGene(geneType GeneType) (gene gene) {
 	switch geneType {
 	case GeneTypeEat:
 		gene = &eatGene{}
