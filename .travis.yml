@@ -4,6 +4,9 @@ go:
   - 1.10.x
 
 before_install:
+  # system dependencies
+  - apt-get install -y --force-yes libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev
+
   # rename package name for imports
   - mv $HOME/gopath/src/github.com/Vehsamrak $HOME/gopath/src/github.com/vehsamrak
 
