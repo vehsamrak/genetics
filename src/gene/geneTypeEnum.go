@@ -4,19 +4,19 @@ package gene
 type GeneType int
 
 const (
-	// GeneTypePhotosynthesize: gene for photosynthesis
+	// GeneTypePhotosynthesize is gene for photosynthesis
 	GeneTypePhotosynthesize GeneType = iota
-	// GeneTypeEat: gene for eating
+	// GeneTypeEat is gene for eating
 	GeneTypeEat
-	// GeneTypeMoveNorth: gene for moving north
+	// GeneTypeMoveNorth is gene for moving north
 	GeneTypeMoveNorth
-	// GeneTypeMoveEast: gene for moving east
+	// GeneTypeMoveEast is gene for moving east
 	GeneTypeMoveEast
-	// GeneTypeMoveSouth: gene for moving south
+	// GeneTypeMoveSouth is gene for moving south
 	GeneTypeMoveSouth
-	// GeneTypeMoveWest: gene for moving west
+	// GeneTypeMoveWest is gene for moving west
 	GeneTypeMoveWest
-	// GeneTypeWait: gene for standing still
+	// GeneTypeWait is gene for standing still
 	GeneTypeWait
 	genesCount
 )
