@@ -47,3 +47,12 @@ func (suite *GeneFactoryTestSuite) Test_CreateGene_moveNorthGeneTypeCreation_new
 	_, ok := gene.(*photosynthesizeGene)
 	assert.True(suite.T(), ok)
 }
+
+func (suite *GeneFactoryTestSuite) Test_CreateGenePool_noParameters_newGenePoolWithGenesReturned() {
+	factory := &GeneFactory{}
+
+	genePool := factory.CreateGenePool()
+	allGeneTypesCount := len(getAllGeneTypes())
+
+	assert.Equal(suite.T(), allGeneTypesCount, genePool.CountGenes())
+}

@@ -11,4 +11,14 @@ const (
 	GeneTypeMoveSouth
 	GeneTypeMoveWest
 	GeneTypeWait
+	genesCount
 )
+
+func getAllGeneTypes() []GeneType {
+	ts := make([]GeneType, genesCount)
+	for i := 0; i < int(genesCount); i++ {
+		ts[i] = GeneType(i)
+	}
+
+	return ts
+}
