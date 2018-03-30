@@ -1,11 +1,11 @@
 package gene
 
-type genePool struct {
+type GenePool struct {
 	cursor int
 	genes  []gene
 }
 
-func (genePool *genePool) Next() {
+func (genePool *GenePool) Next() {
 	genePoolLength := len(genePool.genes)
 
 	if genePoolLength == 0 {
@@ -19,13 +19,17 @@ func (genePool *genePool) Next() {
 	}
 }
 
-func (genePool *genePool) Add(gene gene) {
+func (genePool *GenePool) Add(gene gene) {
 	genePool.genes = append(genePool.genes, gene)
 }
 
-func (genePool *genePool) ExecuteCurrentGene() (ok bool, err error) {
+func (genePool *GenePool) ExecuteCurrentGene() (ok bool, err error) {
 	gene := genePool.genes[genePool.cursor]
 	ok, err = gene.Act()
 
 	return
+}
+
+func (genePool *GenePool) CountGenes() int {
+	return len(genePool.genes)
 }

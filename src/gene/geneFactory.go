@@ -7,19 +7,19 @@ type GeneFactory struct {
 // Create new gene by its type
 func (factory *GeneFactory) Create(geneType GeneType) (gene gene) {
 	switch geneType {
-	case geneTypeEat:
+	case GeneTypeEat:
 		gene = &eatGene{}
-	case geneTypeMoveEast:
+	case GeneTypeMoveEast:
 		gene = &moveEastGene{}
-	case geneTypeMoveNorth:
+	case GeneTypeMoveNorth:
 		gene = &moveNorthGene{}
-	case geneTypeMoveSouth:
+	case GeneTypeMoveSouth:
 		gene = &moveSouthGene{}
-	case geneTypeMoveWest:
+	case GeneTypeMoveWest:
 		gene = &moveWestGene{}
-	case geneTypePhotosynthesize:
+	case GeneTypePhotosynthesize:
 		gene = &photosynthesizeGene{}
-	case geneTypeWait:
+	case GeneTypeWait:
 		gene = &waitGene{}
 	}
 

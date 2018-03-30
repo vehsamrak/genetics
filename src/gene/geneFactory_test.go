@@ -20,13 +20,13 @@ var geneTypeTestTable = []struct {
 	geneType GeneType
 	geneCode string
 }{
-	{geneTypePhotosynthesize, "P"},
-	{geneTypeMoveNorth, "^"},
-	{geneTypeMoveEast, ">"},
-	{geneTypeMoveSouth, "v"},
-	{geneTypeMoveWest, "<"},
-	{geneTypeEat, "F"},
-	{geneTypeWait, "."},
+	{GeneTypePhotosynthesize, "P"},
+	{GeneTypeMoveNorth, "^"},
+	{GeneTypeMoveEast, ">"},
+	{GeneTypeMoveSouth, "v"},
+	{GeneTypeMoveWest, "<"},
+	{GeneTypeEat, "F"},
+	{GeneTypeWait, "."},
 }
 
 func (suite *GeneFactoryTestSuite) Test_Create_geneType_newGeneCreatedAndCodeIsCorrect() {
@@ -42,7 +42,7 @@ func (suite *GeneFactoryTestSuite) Test_Create_geneType_newGeneCreatedAndCodeIsC
 func (suite *GeneFactoryTestSuite) Test_Code_moveNorthGeneTypeCreation_newGeneFactoryCreatedAndCodeIsCorrect() {
 	factory := &GeneFactory{}
 
-	gene := factory.Create(geneTypePhotosynthesize)
+	gene := factory.Create(GeneTypePhotosynthesize)
 
 	_, ok := gene.(*photosynthesizeGene)
 	assert.True(suite.T(), ok)

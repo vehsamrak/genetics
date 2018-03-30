@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"github.com/vehsamrak/genetics/src/applicationError"
+	Gene "github.com/vehsamrak/genetics/src/gene"
 )
 
 func TestBacterium(test *testing.T) {
@@ -197,6 +198,25 @@ func (suite *BacteriumTestSuite) Test_Photosynthesize_aliveBacterium_lifePointsI
 	bacterium.Photosynthesize()
 
 	assert.Equal(suite.T(), lifePointsAfterPhotosynthesize, bacterium.lifePoints)
+}
+
+func (suite *BacteriumTestSuite) Test_GenePool_bacteriumWithGenes_genePoolReturned() {
+	bacterium := suite.createBacteriumWithGenes()
+
+	genePool := bacterium.GenePool()
+
+	assert.Equal(suite.T(), 1, genePool.CountGenes())
+}
+func (suite *BacteriumTestSuite) createBacteriumWithGenes() *bacterium {
+	geneFactory := Gene.GeneFactory{}
+	gene := geneFactory.Create(Gene.GeneTypeWait)
+
+	genePool := &Gene.GenePool{}
+	genePool.Add(gene)
+
+	bacterium := &bacterium{genePool: genePool}
+
+	return bacterium
 }
 
 func (suite *BacteriumTestSuite) Test_Photosynthesize_deadBacterium_isDeadError() {

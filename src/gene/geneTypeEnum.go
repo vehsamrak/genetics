@@ -4,11 +4,11 @@ package gene
 type GeneType int
 
 const (
-	geneTypePhotosynthesize GeneType = iota
-	geneTypeEat
-	geneTypeMoveNorth
-	geneTypeMoveEast
-	geneTypeMoveSouth
-	geneTypeMoveWest
-	geneTypeWait
+	GeneTypePhotosynthesize GeneType = iota
+	GeneTypeEat
+	GeneTypeMoveNorth
+	GeneTypeMoveEast
+	GeneTypeMoveSouth
+	GeneTypeMoveWest
+	GeneTypeWait
 )

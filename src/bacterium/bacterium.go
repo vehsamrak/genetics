@@ -2,6 +2,7 @@ package bacterium
 
 import (
 	"github.com/vehsamrak/genetics/src/applicationError"
+	"github.com/vehsamrak/genetics/src/gene"
 )
 
 const lifePointsCostEat = 1
@@ -12,6 +13,7 @@ const lifePointsGainPhotosynthesize = 1
 
 type bacterium struct {
 	gameField  gameField
+	genePool   *gene.GenePool
 	lifePoints int
 	x          int
 	y          int
@@ -155,4 +157,8 @@ func (bacterium *bacterium) getCoordinatesOfDirection(direction Direction) (dest
 	}
 
 	return
+}
+
+func (bacterium *bacterium) GenePool() *gene.GenePool {
+	return bacterium.genePool
 }

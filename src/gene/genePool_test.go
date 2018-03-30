@@ -29,7 +29,7 @@ var nextTestTable = []struct {
 
 func (suite *GenePoolTestSuite) Test_Next_genePoolWithGenesCollectionAndCursor_cursorMovedAsExpected() {
 	for id, dataset := range nextTestTable {
-		genePool := genePool{cursor: dataset.initialCursor, genes: make([]gene, dataset.genesCount)}
+		genePool := GenePool{cursor: dataset.initialCursor, genes: make([]gene, dataset.genesCount)}
 
 		genePool.Next()
 
@@ -38,7 +38,7 @@ func (suite *GenePoolTestSuite) Test_Next_genePoolWithGenesCollectionAndCursor_c
 }
 
 func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() {
-	genePool := genePool{}
+	genePool := GenePool{}
 	gene := &photosynthesizeGene{}
 
 	genePool.Add(gene)
@@ -47,7 +47,7 @@ func (suite *GenePoolTestSuite) Test_Add_genePoolWithoutGenes_geneAddedToPool() 
 }
 
 func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCursorOnIt_geneUnderCursorActs() {
-	genePool := genePool{genes: suite.getAllAvailableGenes()}
+	genePool := GenePool{genes: suite.getAllAvailableGenes()}
 
 	for range genePool.genes {
 		genePool.Next()
@@ -56,6 +56,15 @@ func (suite *GenePoolTestSuite) Test_ExecuteCurrentGene_genePoolWithGeneAndCurso
 		assert.True(suite.T(), ok)
 		assert.Nil(suite.T(), err)
 	}
+}
+
+func (suite *GenePoolTestSuite) Test_CountGenes_genePoolWithAvailableGenes_correctCountReturned() {
+	availableGenes := suite.getAllAvailableGenes()
+	genePool := GenePool{genes: availableGenes}
+
+	genesCount := genePool.CountGenes()
+
+	assert.Equal(suite.T(), len(availableGenes), genesCount)
 }
 
 func (suite *GenePoolTestSuite) getAllAvailableGenes() []gene {
