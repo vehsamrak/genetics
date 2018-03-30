@@ -1,11 +1,13 @@
 language: go
 
+sudo: required
+
 go:
   - 1.10.x
 
 before_install:
   # system dependencies
-  - apt-get install -y --force-yes libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev
+  - apt-get install -y --force-yes libglu1-mesa-dev libgles2-mesa-dev libxrandr-dev libxcursor-dev libxinerama-dev libxi-dev libasound2-dev
 
   # rename package name for imports
   - mv $HOME/gopath/src/github.com/Vehsamrak $HOME/gopath/src/github.com/vehsamrak
