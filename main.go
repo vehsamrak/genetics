@@ -7,60 +7,53 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/vehsamrak/genetics/src/graphics"
 )
 
-const screenWidth = 10
-const screenHeight = 10
+const screenSide = 10
 const speed = 1
 
 var worldCounter int
-var pixels = make([]byte, screenWidth*screenHeight*4)
+var pixelService *graphics.PixelService
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
 func main() {
-	if err := ebiten.Run(update, screenWidth, screenHeight, 50, "Bacterium simulation"); err != nil {
+	pixelService = graphics.New(screenSide)
+
+	if err := ebiten.Run(update, screenSide, screenSide, 50, "Bacterium simulation"); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func update(screen *ebiten.Image) error {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		os.Exit(0)
+	pixelService.Screen = screen
+	handleKeyboardInput()
+
+	if ebiten.IsRunningSlowly() {
+		return nil
 	}
 
 	if worldCounter > 10-speed {
 		worldCounter = 0
 	} else {
 		worldCounter++
-		screen.ReplacePixels(pixels)
+		pixelService.RefreshScreen()
 
 		return nil
 	}
 
-	pixels = make([]byte, screenWidth*screenHeight*4)
-
-	for x := range pixels {
-		// only 4-th pixels are visible, while others are RGB colours
-		if x%4 != 0 {
-			continue
-		}
-
-		if rand.Intn(10) == 0 {
-			pixels[x] = 0xff
-			pixels[x+1] = 0xff
-			pixels[x+2] = 0xff
-			pixels[x+3] = 0xff
-		}
-	}
-
-	screen.ReplacePixels(pixels)
-
-	if ebiten.IsRunningSlowly() {
-		return nil
-	}
+	pixelService.ClearScreen()
+	pixelService.DrawRandomPixel()
+	pixelService.RefreshScreen()
 
 	return nil
+}
+
+func handleKeyboardInput() {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+		os.Exit(0)
+	}
 }
