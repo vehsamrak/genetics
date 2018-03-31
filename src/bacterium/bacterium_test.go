@@ -75,6 +75,16 @@ func (suite *BacteriumTestSuite) Test_New_newBacterium_defaultAmountOfLifePoints
 	assert.Equal(suite.T(), bacterium.LifePoints(), defaultLifePoints)
 }
 
+func (suite *BacteriumTestSuite) Test_New_newBacterium_bacteriumContainsNonEmptyGenePool() {
+	geneTypesCount := len(Gene.GetAllGeneTypes())
+
+	bacterium := New()
+	genePool := bacterium.GenePool()
+	bacteriumGenesCount := genePool.CountGenes()
+
+	assert.Equal(suite.T(), geneTypesCount, bacteriumGenesCount)
+}
+
 func (suite *BacteriumTestSuite) Test_GetLifePoints_bacteriumWithOneLifePoint_correctAmountOfLifePointsReturned() {
 	bacterium := bacterium{lifePoints: 1}
 

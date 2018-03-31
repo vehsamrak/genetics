@@ -31,7 +31,7 @@ func (factory *GeneFactory) CreateGenePool() (genePool *GenePool) {
 	genePool = &GenePool{}
 	var geneType GeneType
 
-	for _, geneType = range getAllGeneTypes() {
+	for _, geneType = range GetAllGeneTypes() {
 		gene := factory.CreateGene(geneType)
 		genePool.Add(gene)
 	}

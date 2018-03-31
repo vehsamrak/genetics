@@ -21,7 +21,7 @@ const (
 	genesCount
 )
 
-func getAllGeneTypes() []GeneType {
+func GetAllGeneTypes() []GeneType {
 	ts := make([]GeneType, genesCount)
 	for i := 0; i < int(genesCount); i++ {
 		ts[i] = GeneType(i)

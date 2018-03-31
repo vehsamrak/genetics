@@ -21,7 +21,14 @@ type bacterium struct {
 
 // New bacterium constructor
 func New() microorganism {
-	return &bacterium{lifePoints: lifePointsGainBirth}
+	geneFactory := gene.GeneFactory{}
+
+	bacterium := &bacterium{
+		lifePoints: lifePointsGainBirth,
+		genePool:   geneFactory.CreateGenePool(),
+	}
+
+	return bacterium
 }
 
 func (bacterium *bacterium) GameField() gameField {

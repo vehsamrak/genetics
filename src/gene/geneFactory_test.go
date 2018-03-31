@@ -52,7 +52,7 @@ func (suite *GeneFactoryTestSuite) Test_CreateGenePool_noParameters_newGenePoolW
 	factory := &GeneFactory{}
 
 	genePool := factory.CreateGenePool()
-	allGeneTypesCount := len(getAllGeneTypes())
+	allGeneTypesCount := len(GetAllGeneTypes())
 
 	assert.Equal(suite.T(), allGeneTypesCount, genePool.CountGenes())
 }
