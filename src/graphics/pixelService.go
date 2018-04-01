@@ -114,7 +114,7 @@ func (service *PixelService) getColorBytes(color int) []byte {
 	colorBytes[0] = red
 	colorBytes[1] = green
 	colorBytes[2] = blue
-	colorBytes[3] = 0xff
+	colorBytes[3] = 0x00 + byte(rand.Intn(255))
 
 	return colorBytes
 }

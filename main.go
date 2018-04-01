@@ -10,9 +10,10 @@ import (
 	"github.com/vehsamrak/genetics/src/graphics"
 )
 
-const screenHeight = 7
-const screenWidth = 4
-const speed = 1
+const screenEnlargeFactor = 5
+const screenHeight = 7 * screenEnlargeFactor
+const screenWidth = 4 * screenEnlargeFactor
+const speed = 100
 
 var worldCounter int
 var pixelService *graphics.PixelService
@@ -48,7 +49,7 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 
-	pixelService.ClearScreen()
+	//pixelService.ClearScreen()
 	pixelService.DrawRandomPixel()
 	pixelService.RefreshScreen()
 
