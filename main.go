@@ -10,7 +10,8 @@ import (
 	"github.com/vehsamrak/genetics/src/graphics"
 )
 
-const screenSide = 10
+const screenHeight = 7
+const screenWidth = 4
 const speed = 1
 
 var worldCounter int
@@ -21,9 +22,11 @@ func init() {
 }
 
 func main() {
-	pixelService = graphics.New(screenSide)
+	pixelService = graphics.New(screenHeight, screenWidth)
 
-	if err := ebiten.Run(update, screenSide, screenSide, 50, "Bacterium simulation"); err != nil {
+	ebiten.SetFullscreen(true)
+
+	if err := ebiten.Run(update, screenHeight, screenWidth, 1, "Bacterium simulation"); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -36,7 +39,7 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 
-	if worldCounter > 10-speed {
+	if worldCounter > 120-speed {
 		worldCounter = 0
 	} else {
 		worldCounter++
