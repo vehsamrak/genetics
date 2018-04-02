@@ -15,6 +15,7 @@ const (
 	ColorCyan
 	ColorMagenta
 	ColorYellow
+	ColorPink
 	colorCount
 )
 
@@ -109,6 +110,10 @@ func (service *PixelService) getColorBytes(color int) []byte {
 		red = 0xff
 		green = 0xff
 		blue = 0xff
+	case ColorPink:
+		red = 0xe6
+		green = 0x34
+		blue = 0x62
 	}
 
 	colorBytes[0] = red
